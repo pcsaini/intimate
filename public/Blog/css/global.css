@@ -1,0 +1,263 @@
+@import url(https://fonts.googleapis.com/css?family=Raleway:400,300,500,600);
+@import url(https://fonts.googleapis.com/css?family=Roboto+Slab:300);
+/* ==========================================================================
+   Preset Loader
+   ========================================================================== */
+/* ==========================================================================
+   Google Fonts
+   ========================================================================== */
+body {
+  font-size: 14px;
+  font-family: 'Raleway', sans-serif;
+  color: #666666;
+  background: #f5f5f5;
+}
+p {
+  font-family: 'Roboto Slab', sans-serif;
+  font-weight: 300;
+  color: #4f4f4f;
+  line-height: 24px;
+}
+a {
+  color: #666666;
+  transition: color 0.2s ease-in-out;
+  -moz-transition: color 0.2s ease-in-out;
+  -webkit-transition: color 0.2s ease-in-out;
+  -o-transition: color 0.2s ease-in-out;
+}
+a:hover,
+a:focus,
+a.active {
+  color: #ec483b;
+  outline: none;
+  text-decoration: none;
+}
+img {
+  width: 100%;
+}
+ul {
+  margin: 0;
+  padding: 0;
+}
+ul li {
+  list-style: none;
+}
+ol {
+  list-style: none;
+}
+#content {
+  background: #fff;
+}
+.btn {
+  font-size: 16px;
+  opacity: 1;
+  border-radius: 0px;
+  font-weight: 600;
+}
+.btn:focus,
+.btn:hover {
+  outline: none;
+}
+.btn-common {
+  font-size: 16px;
+  color: #ec483b;
+  padding: 0px;
+  text-transform: uppercase;
+}
+.btn-common i {
+  font-size: 16px;
+  transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  -webkit-transition: all 0.2s ease;
+  -o-transition: all 0.2s ease;
+}
+.btn-common:hover i {
+  margin-left: 8px;
+}
+.btn-common:hover {
+  color: #ec483b;
+}
+.btn-border {
+  font-size: 14px;
+  border: none;
+  color: #ec483b;
+  background: #fff;
+  margin-left: 4px;
+  font-weight: 500;
+  margin-top: 40px;
+  font-size: 20px;
+  border-radius: 0px;
+  text-transform: uppercase;
+  line-height: 28px;
+  transition: all 300ms ease 0s;
+}
+.btn-border:hover {
+  background: #ec483b;
+  color: #fff;
+}
+.btn-system {
+  font-size: 14px;
+  border: 1px solid #E3E3E3;
+  background: #ec483b;
+  color: #ffffff;
+  font-weight: 500;
+  margin-top: 40px;
+  font-size: 20px;
+  border-radius: 0px;
+  text-transform: uppercase;
+  line-height: 28px;
+  border: 0px;
+  -webkit-transition: all 300ms ease 0s;
+  -moz-transition: all 300ms ease 0s;
+  -ms-transition: all 300ms ease 0s;
+  transition: all 300ms ease 0s;
+  box-shadow: 0px 4px 0px rgba(0, 0, 0, 0.1) inset;
+}
+.btn-system:hover {
+  box-shadow: 0px 60px 0px rgba(0, 0, 0, 0.1) inset;
+  color: #fff;
+}
+.btn-lg {
+  padding: 15px 30px;
+  margin: 40px 10px;
+}
+.btn-sn {
+  width: 100%;
+  background: #ec483b;
+  border-radius: 0px;
+  padding: 18px 0px;
+  color: #fff;
+}
+.btn-sn:hover {
+  color: #fff;
+}
+.btn.disabled {
+  opacity: 1;
+}
+#content {
+  padding: 30px 0;
+}
+#portfolio-list .mix {
+  display: none;
+}
+.space {
+  margin-bottom: 20px;
+  display: block;
+}
+.side {
+  position: relative;
+  float: right;
+  top: 0;
+  padding: 32px 0;
+  margin-left: 4px;
+  right: -15px;
+  transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -webkit-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+}
+.side a {
+  display: inline-block;
+  color: #666666;
+  margin-right: 15px;
+  font-size: 16px;
+}
+.side a:hover {
+  color: #ec483b;
+}
+.show-search:hover i {
+  color: #666;
+}
+.show-search:hover i:hover {
+  color: #ec483b;
+  cursor: pointer;
+}
+.full-search {
+  z-index: 9999;
+  position: absolute;
+  top: 70px;
+  display: none;
+  margin-bottom: -1px;
+}
+.full-search:before {
+  position: absolute;
+  top: -8px;
+  right: 30px;
+  display: block;
+  content: "";
+  width: 0px;
+  height: 0px;
+  border-style: solid;
+  border-width: 0px 8px 8px;
+  border-color: transparent transparent #666;
+  box-sizing: border-box;
+}
+.full-search .form-control:focus {
+  border: none;
+}
+.full-search .close-search {
+  cursor: pointer;
+  font-size: 24px;
+  color: #fff;
+  top: 10px;
+  right: 24px;
+  position: absolute;
+}
+.full-search input[type="text"] {
+  outline: medium none;
+  font-size: 20px;
+  display: inline-block;
+  color: #fff;
+  background: #666666;
+  margin-left: -45px;
+  font-weight: 400;
+  border: none;
+  line-height: 30px;
+  width: 260px;
+  position: absolute;
+  right: 10px;
+  color: #fff !important;
+}
+.socialPlugin .showSocialButtons {
+  color: #ec483b;
+}
+/* Container Of The Plugin */
+.socialPlugin {
+  text-align: center;
+  width: 24px;
+  margin: 0;
+  display: block;
+}
+.socialPlugin .showSocialButtons {
+  font-size: 18px;
+  cursor: pointer;
+  line-height: 24px;
+  padding: 10px;
+  margin-right: 12px;
+}
+.socialPlugin .socials {
+  color: #FFF;
+  line-height: 10px;
+  text-align: right;
+  margin-top: -22px;
+  margin-left: -74px;
+  display: block;
+  -webkit-transition: .5s;
+  -moz-transition: .5s;
+  -o-transition: .5s;
+  transition: .5s;
+  opacity: 0;
+}
+@media all and (max-width: 992px) {
+  .socialPlugin .socials {
+    margin-top: -20px;
+  }
+}
+/* Toggled State */
+.socialPlugin .socials.opened {
+  opacity: 1;
+  -webkit-transition: .5s;
+  -moz-transition: .5s;
+  -o-transition: .5s;
+  transition: .5s;
+}

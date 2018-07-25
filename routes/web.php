@@ -12,5 +12,8 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('blog');
+});
+Route::get('/single',function (){
+   return view('article');
 });

@@ -1,0 +1,316 @@
+/* ==========================================================================
+   Preset Loader
+   ========================================================================== */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .widget-profile .portfolio {
+    left: 42%;
+  }
+  .sidebar .nav-tabs > li > a {
+    padding: 15px 15px;
+  }
+  .carousel-caption {
+    margin-top: -92px;
+  }
+  .carousel-caption h1 {
+    font-size: 26px;
+  }
+  .carousel-caption h2 {
+    font-size: 14px;
+  }
+  .btn-lg {
+    padding: 10px 20px;
+    font-size: 16px;
+  }
+  .blog-item-wrap .post-format {
+    position: absolute;
+    font-size: 22px;
+    top: 15px;
+    right: 10px;
+  }
+}
+@media (max-width: 767px) {
+  .logo {
+    position: absolute;
+    top: 0px;
+    margin-top: 0px;
+  }
+  .navbar-intimate .navbar-brand {
+    width: 130px;
+    height: auto;
+    padding: 7px 15px;
+  }
+  .navbar-toggle {
+    display: none;
+  }
+  .navbar-header {
+    position: relative;
+  }
+  .navbar-intimate .navbar-nav > li > a {
+    padding: 15px 0px;
+    border: none;
+  }
+  .navbar-intimate .navbar-nav > li > a:hover,
+  .navbar-intimate .navbar-nav > li.active > a,
+  .navbar-intimate .navbar-nav > li.open > a,
+  .navbar-intimate .navbar-nav > .active > a:hover,
+  .navbar-intimate .navbar-nav > .active > a:focus,
+  .navbar-intimate .navbar-nav > .open > a:hover {
+    border: none;
+  }
+  .navbar-nav {
+    margin: 0;
+  }
+  .navbar-nav .open .dropdown-menu .dropdown-header,
+  .navbar-nav .open .dropdown-menu > li > a {
+    padding: 15px 0px 10px 15px;
+    color: #666;
+    border-bottom: none;
+  }
+  .navbar-nav .open .dropdown-menu .dropdown-header:hover,
+  .navbar-nav .open .dropdown-menu > li > a:hover {
+    color: #ec483b;
+  }
+  .dropdown .dropdown-menu > li > a:hover,
+  .dropdown .dropdown-menu > li > a .active {
+    color: #ec483b !important;
+  }
+  .side {
+    display: none;
+  }
+  .blog-item-wrap .post-format {
+    position: absolute;
+    font-size: 22px;
+    top: 15px;
+    right: 10px;
+  }
+  .widget-profile .portfolio {
+    left: 50%;
+  }
+  .widget-profile .portfolio {
+    left: 42%;
+  }
+  .carousel-caption {
+    margin-top: -85px;
+  }
+  .carousel-caption h1 {
+    font-size: 26px;
+    margin-bottom: 15px;
+  }
+  .carousel-caption h2 {
+    font-size: 13px;
+  }
+  .btn-lg {
+    padding: 10px 20px;
+    font-size: 16px;
+    margin: 20px 10px;
+  }
+}
+@media (min-width: 320px) and (max-width: 480px) {
+  .logo {
+    position: absolute;
+    top: 0px;
+    margin-top: 0px;
+  }
+  .navbar-intimate .navbar-brand {
+    width: 130px;
+    height: auto;
+    padding: 7px 15px;
+  }
+  .navbar-default .navbar-toggle:focus,
+  .navbar-default .navbar-toggle:hover {
+    background-color: transparent;
+  }
+  .navbar-intimate .navbar-nav > li > a {
+    padding: 15px 0px;
+    border: none;
+  }
+  .navbar-intimate .navbar-nav > li > a:hover,
+  .navbar-intimate .navbar-nav > li.active > a,
+  .navbar-intimate .navbar-nav > li.open > a,
+  .navbar-intimate .navbar-nav > .active > a:hover,
+  .navbar-intimate .navbar-nav > .active > a:focus,
+  .navbar-intimate .navbar-nav > .open > a:hover {
+    border: none;
+  }
+  .navbar-nav {
+    margin: 0;
+  }
+  .navbar-nav .open .dropdown-menu .dropdown-header,
+  .navbar-nav .open .dropdown-menu > li > a {
+    padding: 15px 0px 10px 15px;
+    color: #666;
+    border-bottom: none;
+  }
+  .navbar-nav .open .dropdown-menu .dropdown-header:hover,
+  .navbar-nav .open .dropdown-menu > li > a:hover {
+    color: #ec483b;
+  }
+  .dropdown .dropdown-menu > li > a:hover,
+  .dropdown .dropdown-menu > li > a .active {
+    color: #ec483b !important;
+  }
+  .side {
+    display: none;
+  }
+  #hero-area {
+    padding: 15px 0;
+  }
+  #hero-area .intro-area h2 {
+    font-size: 24px;
+  }
+  .entry-meta {
+    font-size: 10px !important;
+  }
+  #content.single-post {
+    padding-top: 15px;
+  }
+  article {
+    padding: 20px;
+  }
+  .blog-title {
+    font-size: 20px;
+    line-height: 30px;
+    margin-bottom: 8px;
+  }
+  .blog-item-wrap .post-format {
+    position: absolute;
+    font-size: 22px;
+    top: 15px;
+    right: 10px;
+  }
+  .post-quote blockquote {
+    padding: 20px 20px;
+  }
+  .post-quote blockquote p {
+    font-size: 20px;
+  }
+  .blog-item-wrap .entry-more .share-icon:hover .social-icon {
+    display: none;
+  }
+  .pager li a {
+    font-size: 13px;
+    line-height: 28px;
+  }
+  .pager span {
+    line-height: 24px;
+  }
+  .pager span a {
+    height: 16px;
+    font-size: 11px;
+    width: 16px;
+    line-height: 12px;
+  }
+  .sidebar .nav-tabs > li > a {
+    padding: 15px 14px;
+    width: 100%;
+  }
+  .footer .footer-menu li {
+    margin-right: 2px;
+  }
+  .tag .large {
+    font-size: 22px;
+  }
+  .controls li {
+    margin: 0px 3px;
+  }
+  .bl {
+    border-left: none;
+    border-right: none;
+  }
+  .capton {
+    border-left: 8px solid #ec483b;
+    padding: 10px 10px;
+  }
+  .quote p {
+    padding: 0;
+    font-size: 16px;
+    line-height: 22px;
+  }
+  .quote span {
+    display: none;
+  }
+  .links {
+    text-align: center;
+  }
+  .links a {
+    font-size: 0;
+  }
+  .links a i {
+    font-size: 30px;
+  }
+  .links .share {
+    display: none;
+  }
+  .widget-profile .info {
+    padding: 15px;
+  }
+  .author .author-img {
+    float: none;
+    margin: 0 auto;
+  }
+  .author .author-content {
+    margin-left: 0;
+    text-align: center;
+  }
+  #comments .comments-list li ul {
+    padding-left: 0;
+  }
+  .page-header {
+    text-align: center;
+  }
+  .page-header .entry-title {
+    font-size: 20px;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .page-header .breadcrumb {
+    float: none;
+  }
+  .share-icon {
+    display: none;
+  }
+  .thumbs-gallery {
+    margin-bottom: 30px;
+  }
+  .thumbs-gallery .item a i {
+    top: 29%;
+  }
+  .tabs .vertical .nav-tabs {
+    width: 100%;
+  }
+  .tabs .vertical .nav-tabs,
+  .tabs .vertical .tab-content {
+    width: 100%;
+  }
+  .tabs .tab-content .list-details,
+  .tabs .tab-content .list1 {
+    padding: 0;
+  }
+  .tabs .tab-content .list1 li {
+    width: 100%;
+  }
+  .tabs .tab-content .counter .counter-item {
+    padding: 15px 0;
+  }
+  .social-share-btn {
+    display: none;
+  }
+  .social-links a {
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+  }
+  .carousel-caption {
+    margin-top: -60px;
+  }
+  .carousel-caption h1 {
+    font-size: 15px;
+  }
+  .carousel-caption h2 {
+    font-size: 14px;
+    line-height: 22px;
+  }
+  .btn-lg {
+    display: none;
+  }
+}
