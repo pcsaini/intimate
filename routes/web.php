@@ -12,8 +12,11 @@
 */
 
 Route::get('/', function () {
-    return view('blog');
+    return view('welcome');
 });
 Route::get('/single',function (){
    return view('article');
+});
+Route::get('/dashboard/',function (){
+   return view('admin.dashboard');
 });
