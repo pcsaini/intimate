@@ -1,4 +1,4 @@
-@extends('admin.master')
+@extends('super.master')
 
 @section('page_title', 'Post | Intimate Blog')
 

@@ -45,7 +45,7 @@
 </div><!-- /.row -->
 
 
-<script src="{{ asset('Admin/js/jquery-1.11.1.min.js') }}"></script>
+<script src="{{ asset('Admin/js/jquery-3.3.1.min.js') }}"></script>
 <script src="{{ asset('Admin/js/bootstrap.min.js') }}"></script>
 </body>
 </html>

@@ -11,7 +11,7 @@ class AuthController extends Controller
 {
     //
     public function get_register(){
-        return view('admin.register');
+        return view('super.register');
     }
 
     public function register(Request $request){
@@ -50,7 +50,7 @@ class AuthController extends Controller
     }
 
     public function get_login(){
-        return view('admin.login');
+        return view('super.login');
     }
 
     public function login(Request $request){
@@ -68,7 +68,7 @@ class AuthController extends Controller
         if (Auth::attempt(['email' => $email,'password' => $password])){
             $user = Auth::user();
             if ($user->is_admin == 1){
-                return redirect()->route('admin.dashboard');
+                return redirect()->route('super.dashboard');
             }else{
                 return redirect()->route('user.dashboard');
             }
@@ -83,7 +83,7 @@ class AuthController extends Controller
     }
 
     public function get_forgot_password(){
-        return view('admin.forgot_password');
+        return view('super.forgot_password');
     }
 
     public function forgot_password(Request $request){
@@ -91,7 +91,7 @@ class AuthController extends Controller
     }
 
     public function reset_password($token){
-        return view('admin.reset_password',['token' => $token]);
+        return view('super.reset_password',['token' => $token]);
     }
 
     public function update_password(Request $request){

@@ -25,17 +25,35 @@ Route::get('logout','AuthController@logout')->name('logout');
 
 
 //Admin Routes
-/*Route::name('admin.')->middleware('is_admin:1')->prefix('admin')->group(function (){
+Route::name('super.')->middleware('is_admin:1')->prefix('super')->group(function (){
     Route::get('dashboard','AdminController@getDashboard')->name('dashboard');
     Route::get('users','AdminController@getUsers')->name('get_users');
-});*/
+    Route::get('category','AdminController@getCategory')->name('get_category');
+    Route::post('category','AdminController@category')->name('category');
+    Route::get('add_category','AdminController@getAddCategory')->name('get_add_category');
+    Route::get('edit_category/{id}','AdminController@editCategory')->name('edit_category');
+    Route::post('save_category','AdminController@saveCategory')->name('save_category');
+    Route::get('approve_category/{id}','AdminController@approveCategory')->name('approve_category');
+    Route::get('delete_category/{id}','AdminController@deleteCategory')->name('delete_category');
+    Route::get('posts','AdminController@getPosts')->name('get_posts');
+    Route::get('comments','AdminController@getComments')->name('get_comments');
+    Route::get('add_post','AdminController@getAddPost')->name('get_add_post');
+    Route::get('profile','AdminController@getProfile')->name('get_profile');
+});
 
 
 //User Routes
 Route::name('user.')->middleware('auth')->prefix('user')->group(function (){
     Route::get('dashboard','UserController@getDashboard')->name('dashboard');
-    Route::get('posts','AdminController@getPosts')->name('get_posts');
-    Route::get('comments','AdminController@getComments')->name('get_comments');
-    Route::get('add_new_post','AdminController@getAddNewPost')->name('get_add_new_post');
-    Route::get('profile','AdminController@getProfile')->name('get_profile');
+    Route::get('category','UserController@getCategory')->name('get_category');
+    Route::get('posts','UserController@getPosts')->name('get_posts');
+    Route::get('comments','UserController@getComments')->name('get_comments');
+    Route::get('add_post','UserController@getAddNewPost')->name('get_add_post');
+    Route::get('profile','UserController@getProfile')->name('get_profile');
+});
+
+Route::name('blog.')->group(function (){
+    Route::get('/',function (){
+        return view('home');
+    });
 });
