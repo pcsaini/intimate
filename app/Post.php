@@ -27,7 +27,7 @@ class Post extends Model
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function postMedia(){
-        return $this->hasMany(PostMedta::class,'post_id');
+        return $this->hasMany(PostMedia::class,'post_id');
     }
 
     /**

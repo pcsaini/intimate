@@ -21,7 +21,6 @@
 
 <script src="{{ asset('Admin/js/jquery-3.3.1.min.js') }}"></script>
 <script src="{{ asset('Admin/js/bootstrap.min.js') }}"></script>
-<script src="{{ asset('Admin/js/html5shiv.js') }}"></script>
 <script src="{{ asset('Admin/js/respond.min.js') }}"></script>
 <script src="{{ asset('Admin/js/bootstrap-datepicker.js') }}"></script>
 <script src="{{ asset('Admin/js/custom.js') }}"></script>

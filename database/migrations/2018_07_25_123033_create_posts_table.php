@@ -17,6 +17,8 @@ class CreatePostsTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('category_id')->unsigned();
+            $table->string('post_title');
+            $table->string('post_url')->unique();
             $table->text('post');
             $table->boolean('is_published')->default(0)->comment('0 - Draft, 1 - Published');
 

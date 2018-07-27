@@ -36,6 +36,7 @@ Route::name('super.')->middleware('is_admin:1')->prefix('super')->group(function
     Route::get('approve_category/{id}','AdminController@approveCategory')->name('approve_category');
     Route::get('delete_category/{id}','AdminController@deleteCategory')->name('delete_category');
     Route::get('posts','AdminController@getPosts')->name('get_posts');
+    Route::post('save_post','AdminController@savePost')->name('save_post');
     Route::get('comments','AdminController@getComments')->name('get_comments');
     Route::get('add_post','AdminController@getAddPost')->name('get_add_post');
     Route::get('profile','AdminController@getProfile')->name('get_profile');

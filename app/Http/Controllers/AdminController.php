@@ -3,7 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Post;
+use App\PostMedia;
+use App\Tag;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
@@ -173,12 +178,86 @@ class AdminController extends Controller
         return view('super.posts');
     }
 
+    public function savePost(Request $request){
+        $user_id = Auth::id();
+        $user = User::find($user_id);
+        $validator = Validator::make($request->all(),[
+            'post_title' => 'required|min:6|max:36',
+            'category' => 'required',
+            'tags' => 'required',
+            'post' => 'required',
+        ]);
+
+        if ($validator->fails()){
+            return redirect()->back()->withErrors($validator->errors())->with($request->all());
+        }
+
+        $post_title = $request->input('post_title');
+        $post_url = str_replace(' ','-',strtolower($post_title));
+        $post_category = $request->input('category');
+        $post_tags = $request->input('tags');
+        $tags = explode(',',$post_tags);
+        $post_content = $request->input('post');
+
+        if ($request->input('id') == 0){
+            $post = new Post();
+            $post->post_title = $post_title;
+            $post->post_url = $post_url;
+            $post->category_id = $post_category;
+            $post->post = $post_content;
+
+            if ($request->input('publish')){
+                $post->is_published = 1;
+            }else{
+                $post->is_published = 0;
+            }
+            $user->posts()->save($post);
+
+            foreach ($tags as $tag){
+                $tagModel = Tag::where('name',$tag)->first();
+                if (!$tagModel){
+                    $tagModel = new Tag();
+                    $tagModel->name = $tag;
+                    $tagModel->save();
+                }
+
+                $post->tags()->attach($tagModel);
+            }
+
+            if ($request->hasFile('post_media')){
+                $files = $request->file('post_media');
+                $num = 0;
+                foreach ($files as $file){
+                    $num++;
+                    $extension = $file->getClientOriginalExtension();
+                    $name = $post_url.'-'.$num.'.'.$extension;
+                    $file->move(public_path().'/post_media/', $name);
+
+                    $post_media = new PostMedia();
+                    $post_media->media = $name;
+                    $post->postMedia()->save($post_media);
+                }
+            }
+
+        }else{
+            $post = Post::find($request->input('id'));
+            $post->post_title = $post_title;
+            $post->post_url = $post_url;
+            $post->category_id = $post_category;
+            $post->post = $post_content;
+            $post->save($post);
+        }
+        dd($request->all());
+
+    }
+
     public function getComments(){
         return view('super.comments');
     }
 
     public function getAddPost(){
-        return view('super.add_post');
+        $category = Category::where('is_active',1)->get();
+        return view('super.add_post',['category' => $category]);
     }
 
     public function getProfile(){
