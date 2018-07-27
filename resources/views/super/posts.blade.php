@@ -15,7 +15,15 @@
 
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Posts</h1>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Posts
+                        <a href="{{ route('super.get_add_post') }}" class="btn btn-primary pull-right">Add New Post</a>
+                    </div>
+                    <div class="panel panel-body">
+                        Posts Collections
+                    </div>
+                </div>
             </div>
         </div><!--/.row-->
     </div>

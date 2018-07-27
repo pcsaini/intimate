@@ -22,7 +22,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         Category
-                        <a class="btn btn-primary pull-right" href="{{ route('super.get_add_category') }}">Add</a>
+                        <a class="btn btn-primary pull-right" href="{{ route('super.get_add_category') }}">Add New Category</a>
                     </div>
                     <div class="panel-body">
 
