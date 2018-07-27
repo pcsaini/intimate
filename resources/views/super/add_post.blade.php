@@ -17,7 +17,7 @@
             $heading = 'Post Edit';
             $id = $post->id;
             $post_title = $post->post_title;
-            $post_category = $post->post_category;
+            $post_category = $post->category_id;
             $post_tags = $post->tags;
             $post_media = $post->post_media;
             $post_content = $post->post;

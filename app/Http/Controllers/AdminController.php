@@ -9,6 +9,7 @@ use App\Tag;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
@@ -174,10 +175,31 @@ class AdminController extends Controller
         return redirect()->back()->with('success','Category Delete Successfully');
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function getPosts(){
         return view('super.posts');
     }
 
+    public function editPost($id){
+        $post = Post::with('tags')->find($id);
+        $tags = [];
+        foreach ($post->tags as $tag){
+            $tags[] = $tag->name;
+        }
+        $tags = implode(',',$tags);
+        unset($post->tags);
+        $post->tags = $tags;
+        $category = Category::where('is_active',1)->get();
+        return view('super.add_post',['post' => $post,'category' => $category]);
+    }
+
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function savePost(Request $request){
         $user_id = Auth::id();
         $user = User::find($user_id);
@@ -220,8 +242,47 @@ class AdminController extends Controller
                     $tagModel->name = $tag;
                     $tagModel->save();
                 }
+                $post_tag = DB::table('post_tag')->where('post_id',$post->id)->where('tag_id',$tagModel->id)->first();
+                if (!$post_tag){
+                    $post->tags()->attach($tagModel);
+                }
+            }
 
-                $post->tags()->attach($tagModel);
+            if ($request->hasFile('post_media')){
+                $files = $request->file('post_media');
+                $num = 0;
+                foreach ($files as $file){
+                    $num++;
+                    $extension = $file->getClientOriginalExtension();
+                    $name = $post_url.'-edit-'.$num.'.'.$extension;
+                    $file->move(public_path().'/post_media/', $name);
+
+                    $post_media = new PostMedia();
+                    $post_media->media = $name;
+                    $post->postMedia()->save($post_media);
+                }
+            }
+
+        }else{
+            $post = Post::find($request->input('id'));
+            $post->post_title = $post_title;
+            $post->post_url = $post_url;
+            $post->category_id = $post_category;
+            $post->post = $post_content;
+            $user->posts()->save($post);
+
+            foreach ($tags as $tag){
+                $tagModel = Tag::where('name',$tag)->first();
+                if (!$tagModel){
+                    $tagModel = new Tag();
+                    $tagModel->name = $tag;
+                    $tagModel->save();
+                }
+                $post_tag = DB::table('post_tag')->where('post_id',$post->id)->where('tag_id',$tagModel->id)->first();
+                if (!$post_tag){
+                    $post->tags()->attach($tagModel);
+                }
+
             }
 
             if ($request->hasFile('post_media')){
@@ -238,14 +299,6 @@ class AdminController extends Controller
                     $post->postMedia()->save($post_media);
                 }
             }
-
-        }else{
-            $post = Post::find($request->input('id'));
-            $post->post_title = $post_title;
-            $post->post_url = $post_url;
-            $post->category_id = $post_category;
-            $post->post = $post_content;
-            $post->save($post);
         }
         dd($request->all());
 
