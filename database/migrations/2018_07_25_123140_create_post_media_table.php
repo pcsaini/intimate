@@ -16,7 +16,6 @@ class CreatePostMediaTable extends Migration
         Schema::create('post_media', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('post_id')->unsigned();
-            $table->string('media_type')->comment('single,multiple,video');
             $table->string('media');
 
             $table->foreign('post_id')->references('id')->on('posts');
