@@ -179,9 +179,96 @@ class AdminController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getPosts(){
+        /*$posts = Post::with('tags')
+            ->with('category')
+            ->with('postMedia')
+            ->get();
+        foreach ($posts as $post){
+            print_r($post->category->category);
+        }
+        dd($posts);*/
         return view('super.posts');
     }
 
+    /**
+     * @param Request $request
+     */
+    public function posts(Request $request){
+        $columns  = array(
+            0 => 'id',
+            1 => 'post_title',
+            2 => 'category_id',
+            3 => 'id',
+            4 => 'status',
+            5 => 'id',
+        );
+
+        $totalData = Post::count();
+        $totalFiltered = $totalData;
+
+        $limit = $request->input('length');
+        $start = $request->input('start');
+        $order = $columns[$request->input('order.0.column')];
+        $dir = $request->input('order.0.dir');
+
+        if(empty($request->input('search.value'))){
+            $posts = Post::with('tags')
+                ->with('category')
+                ->with('postMedia')
+                ->offset($start)
+                ->limit($limit)
+                ->orderBy($order,$dir)
+                ->get();
+        }else{
+            $search = $request->input('search.value');
+            $posts = Post::with('tags')
+                ->with('category')
+                ->with('postMedia')
+                ->where('post_title','LIKE','%'.$search.'%')
+                ->offset($start)
+                ->limit($limit)
+                ->orderBy($order,$dir)
+                ->get();
+
+            $totalFiltered = Post::where('post_title','LIKE','%'.$search.'%')->count();
+        }
+        $data = array();
+
+        if(!empty($posts)) {
+            foreach ($posts as $post) {
+                $edit = route('super.edit_post',$post->id);
+                $delete = route('super.delete_post',$post->id);
+                $approve = route('super.publish_post',$post->id);
+
+                $tags = [];
+                foreach ($post->tags as $tag){
+                    $tags[] = $tag->name;
+                }
+                $tags = implode(',',$tags);
+
+                $nestedData['id'] = $post->id;
+                $nestedData['post_title'] = $post->post_title;
+                $nestedData['post_category'] = $post->category->category;
+                $nestedData['post_tags'] = $tags;
+                $nestedData['status'] = $post->is_published == 0 ? "<a href='{$approve}' class='btn btn-primary'>Publish</a>" : "<span class='text-primary'><b>Published</b></span>";
+                $nestedData['options'] = "<a href='{$edit}' title='Edit' ><span class='glyphicon glyphicon-edit text-primary'></span></a> &nbsp; <a href='{$delete}' title='Delete' ><span class='glyphicon glyphicon-trash text-danger'></span></a>";
+                $data[] = $nestedData;
+            }
+        }
+        $json_data = array(
+            "draw"            => intval($request->input('draw')),
+            "recordsTotal"    => intval($totalData),
+            "recordsFiltered" => intval($totalFiltered),
+            "data"            => $data
+        );
+
+        echo json_encode($json_data);
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function editPost($id){
         $post = Post::with('tags')->find($id);
         $tags = [];
@@ -195,6 +282,37 @@ class AdminController extends Controller
         return view('super.add_post',['post' => $post,'category' => $category]);
     }
 
+    public function deletePost($id){
+        $post = Post::with('tags')
+            ->with('postMedia')
+            ->find($id);
+        if (!$post){
+            return redirect()->back()->with('error', 'Post Not Found');
+        }
+
+        foreach ($post->tags as $tag){
+            $post->tags()->detach($tag);
+        }
+
+        foreach ($post->postMedia as $post_media){
+            $post->postMedia()->delete($post_media);
+        }
+
+        $post->delete();
+        return redirect()->back()->with('success','Post Successfully Deleted');
+    }
+
+    public function publishPost($id){
+        $post = Post::find($id);
+        if (!$post){
+            return redirect()->back()->with('error', 'Post Not Found');
+        }
+        $post->is_published = 1;
+        $post->save();
+
+        return redirect()->back()->with('success','Post Successfully Published');
+    }
+
 
     /**
      * @param Request $request
@@ -204,18 +322,17 @@ class AdminController extends Controller
         $user_id = Auth::id();
         $user = User::find($user_id);
         $validator = Validator::make($request->all(),[
-            'post_title' => 'required|min:6|max:36',
+            'post_title' => 'required|min:6|max:191',
             'category' => 'required',
             'tags' => 'required',
             'post' => 'required',
         ]);
-
         if ($validator->fails()){
             return redirect()->back()->withErrors($validator->errors())->with($request->all());
         }
 
         $post_title = $request->input('post_title');
-        $post_url = str_replace(' ','-',strtolower($post_title));
+        $post_url = preg_replace('/[^A-Za-z0-9-]+/','-',strtolower($post_title));
         $post_category = $request->input('category');
         $post_tags = $request->input('tags');
         $tags = explode(',',$post_tags);
@@ -254,7 +371,7 @@ class AdminController extends Controller
                 foreach ($files as $file){
                     $num++;
                     $extension = $file->getClientOriginalExtension();
-                    $name = $post_url.'-edit-'.$num.'.'.$extension;
+                    $name = str_limit($post_url,10).'n-'.$num.'.'.$extension;
                     $file->move(public_path().'/post_media/', $name);
 
                     $post_media = new PostMedia();
@@ -291,7 +408,7 @@ class AdminController extends Controller
                 foreach ($files as $file){
                     $num++;
                     $extension = $file->getClientOriginalExtension();
-                    $name = $post_url.'-'.$num.'.'.$extension;
+                    $name = str_limit($post_url,10).'edit-'.$num.'.'.$extension;
                     $file->move(public_path().'/post_media/', $name);
 
                     $post_media = new PostMedia();
@@ -300,7 +417,8 @@ class AdminController extends Controller
                 }
             }
         }
-        dd($request->all());
+
+        return redirect()->route('super.get_posts')->with('success','Post Successfully Created');
 
     }
 

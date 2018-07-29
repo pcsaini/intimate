@@ -88,10 +88,10 @@
                             </div>
 
                             @if (isset($post) && !empty($post))
-                                <button type="submit" class="btn btn-success" name="edit">Submit</button>
+                                <button type="submit" class="btn btn-success" name="edit" value="true">Submit</button>
                             @else
-                                <button type="submit" class="btn btn-success" name="publish">Publish</button>
-                                <button type="submit" class="btn btn-info" name="save">Save Draft</button>
+                                <button type="submit" class="btn btn-success" name="publish" value="true">Publish</button>
+                                <button type="submit" class="btn btn-info" name="save" value="true">Save Draft</button>
                             @endif
                             <button type="reset" class="btn btn-danger">Reset</button>
                         </form>
