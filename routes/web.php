@@ -27,22 +27,36 @@ Route::get('logout','AuthController@logout')->name('logout');
 //Admin Routes
 Route::name('super.')->middleware('is_admin:1')->prefix('super')->group(function (){
     Route::get('dashboard','AdminController@getDashboard')->name('dashboard');
+
+    //Users
     Route::get('users','AdminController@getUsers')->name('get_users');
+    Route::post('users','AdminController@users')->name('users');
+    /*Route::get('edit_user/{id}','AdminController@editUser')->name('edit_user');*/
+    Route::get('approve_user/{id}','AdminController@approveUser')->name('approve_user');
+    Route::get('delete_user/{id}','AdminController@deleteUser')->name('delete_user');
+    Route::get('add_user','AdminController@getAddUser')->name('get_add_user');
+    Route::post('save_user','AdminController@saveUser')->name('save_user');
+
+    //Category
     Route::get('category','AdminController@getCategory')->name('get_category');
     Route::post('category','AdminController@category')->name('category');
-    Route::get('add_category','AdminController@getAddCategory')->name('get_add_category');
     Route::get('edit_category/{id}','AdminController@editCategory')->name('edit_category');
-    Route::post('save_category','AdminController@saveCategory')->name('save_category');
     Route::get('approve_category/{id}','AdminController@approveCategory')->name('approve_category');
     Route::get('delete_category/{id}','AdminController@deleteCategory')->name('delete_category');
+    Route::get('add_category','AdminController@getAddCategory')->name('get_add_category');
+    Route::post('save_category','AdminController@saveCategory')->name('save_category');
+
+    //Post
     Route::get('posts','AdminController@getPosts')->name('get_posts');
     Route::post('posts','AdminController@posts')->name('posts');
     Route::get('edit_post/{id}','AdminController@editPost')->name('edit_post');
     Route::get('delete_post/{id}','AdminController@deletePost')->name('delete_post');
-    Route::post('save_post','AdminController@savePost')->name('save_post');
     Route::get('publish_post/{id}','AdminController@publishPost')->name('publish_post');
-    Route::get('comments','AdminController@getComments')->name('get_comments');
     Route::get('add_post','AdminController@getAddPost')->name('get_add_post');
+    Route::post('save_post','AdminController@savePost')->name('save_post');
+
+    //Comments
+    Route::get('comments','AdminController@getComments')->name('get_comments');
     Route::get('profile','AdminController@getProfile')->name('get_profile');
 });
 

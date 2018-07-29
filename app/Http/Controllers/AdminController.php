@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Comments;
 use App\Post;
 use App\PostMedia;
+use App\Reply;
 use App\Tag;
 use App\User;
 use Illuminate\Http\Request;
@@ -14,13 +16,180 @@ use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
 {
-    //
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function getDashboard(){
-        return view('super.dashboard');
+        $posts = Post::where('is_published',1)->count();
+        $users = User::count();
+        $category = Category::where('is_active',1)->count();
+        $comments = Comments::count();
+        $reply = Reply::count();
+        $last_post = Post::whereDate('created_at', '>', \Carbon\Carbon::now()->subDay())
+            ->count();
+        $last_user = User::whereDate('created_at', '>', \Carbon\Carbon::now()->subDay())
+            ->count();
+        $last_comments = Comments::whereDate('created_at', '>', \Carbon\Carbon::now()->subDay())
+            ->count();
+        $data = [
+            'posts' => $posts,
+            'users' =>$users,
+            'comments' => $comments + $reply,
+            'category' => $category,
+            'last_comments' => $last_comments,
+            'last_post' => $last_post,
+            'last_user' => $last_user
+        ];
+        return view('super.dashboard',['data' => $data]);
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function getUsers(){
         return view('super.users');
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function users(Request $request){
+        $columns  = array(
+            0 => 'id',
+            1 => 'name',
+            2 => 'email',
+            3 => 'status',
+            4 => 'id',
+        );
+
+        $totalData = User::count();
+        $totalFiltered = $totalData;
+
+        $limit = $request->input('length');
+        $start = $request->input('start');
+        $order = $columns[$request->input('order.0.column')];
+        $dir = $request->input('order.0.dir');
+
+        if(empty($request->input('search.value'))){
+            $users = User::offset($start)
+                ->limit($limit)
+                ->orderBy($order,$dir)
+                ->get();
+        }else{
+            $search = $request->input('search.value');
+            $users = User::where('name','LIKE','%'.$search.'%')
+                ->orWhere('email','LIKE','%'.$search.'%')
+                ->offset($start)
+                ->limit($limit)
+                ->orderBy($order,$dir)
+                ->get();
+
+            $totalFiltered = User::where('name','LIKE','%'.$search.'%')
+                ->orWhere('email','LIKE','%'.$search.'%')->count();
+        }
+
+        $data = array();
+
+        if(!empty($users)) {
+            foreach ($users as $user) {
+                $delete = route('super.delete_user',$user->id);
+                $approve = route('super.approve_user',$user->id);
+
+                $nestedData['id'] = $user->id;
+                $nestedData['name'] = $user->name;
+                $nestedData['email'] = $user->email;
+                $nestedData['status'] = $user->is_active == 0 ? "<a href='{$approve}' class='btn btn-primary'>Active</a>" : "<span class='text-primary'><b>Activate</b></span>";
+                $nestedData['options'] = $user->is_delete == 0 ? "<a href='{$delete}' class='btn btn-danger'>Delete</a>" : "<span class='text-danger'><b>Deleted</b></span>";
+                $data[] = $nestedData;
+            }
+        }
+        $json_data = array(
+            "draw"            => intval($request->input('draw')),
+            "recordsTotal"    => intval($totalData),
+            "recordsFiltered" => intval($totalFiltered),
+            "data"            => $data
+        );
+
+        echo json_encode($json_data);
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function approveUser($id){
+        $user = User::where('is_active',0)->find($id);
+        if (!$user){
+            return redirect()->back()->with('error','User Not Find');
+        }
+
+        $user->is_active = 1;
+        $result = $user->save();
+        if (!$result){
+            return redirect()->back()->with('error', 'Problem to Active User');
+        }
+
+        return redirect()->back()->with('success','User Active Successfully');
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function deleteUser($id){
+        $user = User::where('is_active',1)->where('is_delete',0)->find($id);
+        if (!$user){
+            return redirect()->back()->with('error','User Not Find');
+        }
+
+        $user->is_delete = 1;
+        $result = $user->save();
+        if (!$result){
+            return redirect()->back()->with('error', 'Problem to Delete User');
+        }
+
+        return redirect()->back()->with('success','User Delete Successfully');
+    }
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function getAddUser(){
+        return view('super.add_user');
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function saveUser(Request $request){
+        $validator = Validator::make($request->all(),[
+            'name' => 'required|max:20',
+            'email' => 'required|unique:users,email',
+            'password' => 'required|min:6|max:20',
+            'confirm_password' => 'required|same:password'
+        ]);
+
+        if ($validator->fails()){
+            return redirect()->back()->withErrors($validator->errors())->withInput($request->all());
+        }
+        $name = $request->input('name');
+        $email = $request->input('email');
+        $password = $request->input('password');
+
+        $user = new User();
+        $user->name = $name;
+        $user->email = $email;
+        $user->password = bcrypt($password);
+        $user->is_active = 1;
+        $result = $user->save();
+
+        if (!$result){
+            return redirect()->back()->with('error','Problem to Create User')->withInput($request->all());
+        }
+
+        return redirect()->route('super.get_users')->with('success','User Created Successfully');
     }
 
     /**
@@ -282,6 +451,10 @@ class AdminController extends Controller
         return view('super.add_post',['post' => $post,'category' => $category]);
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function deletePost($id){
         $post = Post::with('tags')
             ->with('postMedia')
@@ -302,6 +475,10 @@ class AdminController extends Controller
         return redirect()->back()->with('success','Post Successfully Deleted');
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function publishPost($id){
         $post = Post::find($id);
         if (!$post){
