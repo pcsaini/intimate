@@ -32,18 +32,19 @@
                             $i++;
                             $cat_id = $cat->id;
                             $cat_name = $cat->category;
-                            if ($i < 5){
-                                echo '<li><a href="#">'.$cat_name.'</a></li>';
-                            }else{
+                            $cat_url = str_replace(' ','-',strtolower($cat->category));
+                            if ($i < 5){?>
+                                <li class="{{ Request::url() != route('blog.post_by_category',[$cat_id,$cat_url]) ? "" : "active"}}"><a href="{{route('blog.post_by_category',[$cat_id,$cat_url])}}">{{$cat_name}}</a></li>
+                            <?php }else{
                                 if ($i == 5){
                                     $dropdown_start = true;
-                                    echo '<li class="dropdown dropdown-toggle active">
+                                    echo '<li class="dropdown dropdown-toggle">
                                                 <a data-toggle="dropdown" href=
                                                 "#">More +</a>
                                                 <ul class="dropdown-menu">
-                                                    <li><a href="#">'.$cat_name.'</a></li>';
+                                                    <li><a href="'.route('blog.post_by_category',[$cat_id,$cat_url]).'">'.$cat_name.'</a></li>';
                                 }else{
-                                    echo '<li><a href="#">'.$cat_name.'</a></li>';
+                                    echo '<li><a href="'.route('blog.post_by_category',[$cat_id,$cat_url]).'">'.$cat_name.'</a></li>';
                                 }
                             }
                         }
@@ -56,52 +57,9 @@
         </div>
     </nav><!-- Mobile Menu Start -->
     <ul class="wpb-mobile-menu">
-        <li class="active">
-            <a href="#">Home</a>
-            <ul>
-                <li>
-                    <a href="fullscreen-slider.html">Home - Fullscreen
-                        Slider</a>
-                </li>
-                <li>
-                    <a href="carousel-slider.html">Home - Post Carousel</a>
-                </li>
-                <li class="active">
-                    <a href="index.html">Home - Default</a>
-                </li>
-            </ul>
-        </li>
-        <li>
-            <a href="#">Portfolio</a>
-            <ul>
-                <li>
-                    <a href="portfolio-col-3.html">Portfolio 3 column</a>
-                </li>
-                <li>
-                    <a href="portfolio-col-4.html">Portfolio 4 column</a>
-                </li>
-                <li>
-                    <a href="portfolio-item.html">Single Project</a>
-                </li>
-            </ul>
-        </li>
-        <li>
-            <a href="#">Blog</a>
-            <ul>
-                <li>
-                    <a href="blog.html">Blog View</a>
-                </li>
-                <li>
-                    <a href="single.html">Single Post</a>
-                </li>
-            </ul>
-        </li>
-        <li>
-            <a href="contact.html">Contact</a>
-        </li>
-        <li>
-            <a href="#">Download</a>
-        </li>
+        @foreach($category as $cat)
+            <li class="{{ Request::url() != route('blog.post_by_category',[$cat->id,str_replace(' ','-',strtolower($cat->category))]) ? "" : "active"}}"><a href="{{ route('blog.post_by_category',[$cat_id,str_replace(' ','-',strtolower($cat->category))]) }}">{{$cat->category}}</a></li>
+        @endforeach
     </ul><!-- Mobile Menu End -->
 </header><!-- Header Section End -->
 

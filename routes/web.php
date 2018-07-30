@@ -74,7 +74,10 @@ Route::name('user.')->middleware('auth')->prefix('user')->group(function (){
 
 //Blog
 Route::name('blog.')->group(function (){
-    Route::get('/','BlogController@blogHome')->name('blog');
-    Route::get('/posts/{post_url}','BlogController@singleBlog')->name('single_blog');
-
+    Route::get('/','BlogController@posts')->name('posts');
+    Route::get('/posts/category/{id}/{category}','BlogController@postByCategory')->name('post_by_category');
+    Route::get('/posts/archives/{month}/{year}','BlogController@postByArchives')->name('post_by_archives');
+    Route::get('/posts/tag/{id}/{tag}','BlogController@postByTags')->name('post_by_tags');
+    Route::get('/posts/user/{id}/{user}','BlogController@postByUsers')->name('post_by_users');
+    Route::get('/post/{post_url}','BlogController@singleBlog')->name('single_blog');
 });
