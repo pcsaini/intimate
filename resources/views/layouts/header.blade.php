@@ -25,52 +25,32 @@
             <!-- Navigation Start -->
             <div class="navbar-collapse collapse" id="navigation">
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown dropdown-toggle active">
-                        <a data-toggle="dropdown" href=
-                        "/">Home</a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="fullscreen-slider.html">Home - Fullscreen Slider</a>
-                            </li>
-                            <li>
-                                <a href="carousel-slider.html">Home - Post Carousel</a>
-                            </li>
-                            <li>
-                                <a href="index.html">Home - Default</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="dropdown dropdown-toggle">
-                        <a data-toggle="dropdown" href="portfolio.html">Portfolio</a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="portfolio-col-3.html">Portfolio 3 column</a>
-                            </li>
-                            <li>
-                                <a href="portfolio-col-4.html">Portfolio 4 column</a>
-                            </li>
-                            <li>
-                                <a href="portfolio-item.html">Single Project</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="dropdown dropdown-toggle">
-                        <a data-toggle="dropdown" href="#">Blog</a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="blog.html">Blog View</a>
-                            </li>
-                            <li>
-                                <a href="single.html">Single Post</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="contact.html">Contact</a>
-                    </li>
-                    <li>
-                        <a href="#">Download</a>
-                    </li>
+                    <?php
+                        $i = 0;
+                        $dropdown_start = false;
+                        foreach ($category as $cat){
+                            $i++;
+                            $cat_id = $cat->id;
+                            $cat_name = $cat->category;
+                            if ($i < 5){
+                                echo '<li><a href="#">'.$cat_name.'</a></li>';
+                            }else{
+                                if ($i == 5){
+                                    $dropdown_start = true;
+                                    echo '<li class="dropdown dropdown-toggle active">
+                                                <a data-toggle="dropdown" href=
+                                                "#">More +</a>
+                                                <ul class="dropdown-menu">
+                                                    <li><a href="#">'.$cat_name.'</a></li>';
+                                }else{
+                                    echo '<li><a href="#">'.$cat_name.'</a></li>';
+                                }
+                            }
+                        }
+                        if ($dropdown_start){
+                            echo '</ul></li>';
+                        }
+                    ?>
                 </ul>
             </div><!-- Navigation End -->
         </div>

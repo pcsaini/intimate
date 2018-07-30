@@ -35,10 +35,20 @@
     <!-- Blog Article Start-->
     <article class="single-post-content">
         <!-- Blog item Start -->
-        <div class="blog-item-wrap">
-            <a href="#"><img alt="" src=
-                "img/blog/blog-01.jpg"></a>
-        </div><!-- Blog item End --><br>
+        <!-- Feature inner Start -->
+        <div class="feature-inner">
+            <!-- Post post-thumb -->
+            <div class="post-thumb">
+                <div class="touch-slider owl-carousel">
+                    @foreach($post->postMedia as $post_media)
+                        <div class="item">
+                            <a href="#"><img alt="" src="{{ asset('/post_media/'.$post_media->media)  }}"></a>
+                        </div>
+                    @endforeach
+                </div>
+            </div><!-- End Post post-thumb -->
+        </div><!-- Feature inner End -->
+        <br>
         <?php
         echo $post->post;
         ?>

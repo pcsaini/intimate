@@ -498,9 +498,9 @@ class AdminController extends Controller
         if ($validator->fails()){
             return redirect()->back()->withErrors($validator->errors())->with($request->all());
         }
-
+        $post_model = new Post();
         $post_title = $request->input('post_title');
-        $post_url = preg_replace('/[^A-Za-z0-9-]+/','-',strtolower($post_title));
+        $post_url = $post_model->urlEncode($post_title);
         $post_category = $request->input('category');
         $post_tags = $request->input('tags');
         $tags = explode(',',$post_tags);

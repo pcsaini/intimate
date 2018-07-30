@@ -51,4 +51,10 @@ class Post extends Model
             ->orderByRaw('min(created_at) desc')
             ->get();
     }
+
+    public function urlEncode($string){
+        $url = preg_replace("/[#$%^&*()+=\-\_\[\]\`\‘\’\';,.\/{}|\":<>?@!~\\\\]/",'',$string);
+        $url = str_replace(' ','-',strtolower($url));
+        return $url;
+    }
 }

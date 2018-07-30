@@ -25,10 +25,6 @@
         <article>
             <!-- Blog item Start -->
             <div class="blog-item-wrap">
-                <!-- Post Format icon Start -->
-                <div class="post-format">
-                    <span><i class="fa fa-camera"></i></span>
-                </div><!-- Post Format icon End -->
                 <h2 class="blog-title"><a href="{{ route('blog.single_blog',$post->post_url) }}">{{$post->post_title}}</a></h2><!-- Entry Meta Start-->
                 <div class="entry-meta">
                     <span class="meta-part"><i class="ico-user"></i> <a href="#">{{ $post->user->name }}</a></span>
@@ -39,7 +35,16 @@
                 </div><!-- Entry Meta End-->
                 <!-- Feature inner Start -->
                 <div class="feature-inner">
-                    <a data-lightbox="roadtrip" href=""><img alt="" src="{{ asset('Blog/img/blog/blog-01.jpg') }}"></a>
+                    <!-- Post post-thumb -->
+                    <div class="post-thumb">
+                        <div class="touch-slider owl-carousel">
+                            @foreach($post->postMedia as $post_media)
+                                <div class="item">
+                                    <a href="#"><img alt="" src="{{ asset('/post_media/'.$post_media->media)  }}"></a>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div><!-- End Post post-thumb -->
                 </div><!-- Feature inner End -->
                 <!-- Post Content Start -->
                 <div class="post-content">
