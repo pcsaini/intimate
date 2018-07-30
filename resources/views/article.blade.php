@@ -9,13 +9,13 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="intro-area">
-                        <h2 class="page-title">Personal Blog and Portfolio Template</h2>
+                        <h2 class="page-title">{{$post->post_title}}</h2>
                         <div class="entry-meta">
                             <span class="meta-part">
                                 <i class="ico-user"></i>
-                                <a href="#">James Maclern</a></span> <span class="meta-part"><i class="ico-calendar-alt-fill"></i>
-                                <a href="#">January 7, 2015</a></span> <span class="meta-part"><i class="ico-comments"></i>
-                                <a href="#">20</a></span> <span class="meta-part"><i class="ico-tag"></i> <a href="#">Tech</a>
+                                <a href="#">{{ $post->user->name }}</a></span> <span class="meta-part"><i class="ico-calendar-alt-fill"></i>
+                                <a href="#">{{ $post->created_at }}</a></span> <span class="meta-part"><i class="ico-comments"></i>
+                                <a href="#">20</a></span> <span class="meta-part"><i class="ico-tag"></i> <a href="#">{{ $post->category->category }}</a>
                             </span>
                             <span class="meta-part">
                                 <i class="ico-star"></i>
@@ -39,81 +39,13 @@
             <a href="#"><img alt="" src=
                 "img/blog/blog-01.jpg"></a>
         </div><!-- Blog item End --><br>
-        <blockquote class="capton">
-            <p>Twitter is asking its users to tell brands
-                exactly what they think of their ads with the
-                launch of its new conversational advertising
-                format.</p>
-        </blockquote>
-        <p>Consider that alongside cheap devices like the
-            <a href=
-               "http://thenextweb.com/google/2015/09/29/hands-on-with-googles-new-chromecast-audio-35-streaming-dongle/#gref">
-                Chromecast Audio</a>, which makes old stereos usable
-            again, and that sort of flexibility has to be of
-            concern to companies like <a href=
-                                         "http://thenextweb.com/gadgets/2015/10/29/sonos-play5-review-worth-the-price-on-audio-quality-alone/#gref">
-                Sonos and its awesome multi-room speaker
-                setups</a>.</p><br>
-        <p>You’ll then receive an automated thank you, which
-            offers another opportunity for them to shine as it’ll
-            appear in your timeline along with the original
-            message. This is much like other publishers have been
-            doing for a while, with automated Tweet buttons from
-            their stories that link directly into Twitter. The ads
-            are live in beta with select brands across the world,
-            with Samsung one of the first to try them.</p>
-        <!-- Feature inner Start -->
-        <div class="feature-inner single-space">
-            <!-- Post post-thumb -->
-            <div class="post-thumb">
-                <div class="touch-slider owl-carousel">
-                    <div class="item">
-                        <a href="#"><img alt="" src=
-                            "img/blog/blog-05.jpg"></a>
-                    </div>
-                    <div class="item">
-                        <a href="#"><img alt="" src=
-                            "img/blog/blog-04.jpg"></a>
-                    </div>
-                    <div class="item">
-                        <a href="#"><img alt="" src=
-                            "img/blog/blog-01.jpg"></a>
-                    </div>
-                </div>
-            </div><!-- End Post post-thumb -->
-        </div><!-- Feature inner End -->
-        <p>But brands beware. It’s already pretty easy to get
-            in touch with someone on Twitter if you want to talk to
-            them and it’s not always a nice conversation that
-            people want to have.</p>
-        <blockquote class="quote">
-            <p>The ads are live in beta with select brands
-                across the world, with Samsung one of the first to
-                try them.</p><span><i class="ico-quote"></i></span>
-        </blockquote>
-        <p>Perhaps more interestingly, however, Google also
-            announced new Cast partners for audio products,
-            including the likes of B&O Play, Harman Kardon, Onkyo,
-            Philips, Pioneer, and Raumfeld. There will also be new
-            models from Sony and LG, who already offer Cast-enabled
-            devices. Ultimately, what this means is that you’ll be
-            able to recreate a multi-room synced playback setup
-            using ad-hoc brands and types of speakers, if you
-            want.</p><!-- Feature inner Start -->
-        <div class="feature-inner single-space">
-            <a href="#"><img alt="" src=
-                "img/blog/blog-02.jpg"></a>
-        </div><!-- Feature inner End -->
+        <?php
+        echo $post->post;
+        ?>
         <div class="links">
-            <a class="heart" href="#"><i class="ico-heart"></i>
-                (143)</a> <a class="twitter" href="#"><i class=
-                                                         "ico-twitter-with-circle"></i> Tweet</a> <a class=
-                                                                                                     "facebook" href="#"><i class=
-                                                                                                                            "ico-facebook-with-circle"></i> Share</a> <a class=
-                                                                                                                                                                         "google-plus" href="#"><i class=
-                                                                                                                                                                                                   " ico-google-with-circle"></i> Google+</a>
-            <a class="linkedin" href="#"><i class=
-                                            "ico-linkedin-with-circle"></i> Linkedin</a>
+            <a class="heart" href="#"><i class="ico-heart"></i>(143)</a> <a class="twitter" href="#"><i class="ico-twitter-with-circle"></i> Tweet</a>
+            <a class="facebook" href="#"><i class=ico-facebook-with-circle"></i> Share</a> <a class="google-plus" href="#"><i class="ico-google-with-circle"></i> Google+</a>
+            <a class="linkedin" href="#"><i class="ico-linkedin-with-circle"></i> Linkedin</a>
         </div>
     </article><!-- Blog Article End-->
     <!-- Blog Article Start -->

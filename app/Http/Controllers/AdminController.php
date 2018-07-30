@@ -348,14 +348,6 @@ class AdminController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getPosts(){
-        /*$posts = Post::with('tags')
-            ->with('category')
-            ->with('postMedia')
-            ->get();
-        foreach ($posts as $post){
-            print_r($post->category->category);
-        }
-        dd($posts);*/
         return view('super.posts');
     }
 
@@ -489,7 +481,6 @@ class AdminController extends Controller
 
         return redirect()->back()->with('success','Post Successfully Published');
     }
-
 
     /**
      * @param Request $request

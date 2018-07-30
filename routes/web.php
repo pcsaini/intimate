@@ -71,8 +71,10 @@ Route::name('user.')->middleware('auth')->prefix('user')->group(function (){
     Route::get('profile','UserController@getProfile')->name('get_profile');
 });
 
+
+//Blog
 Route::name('blog.')->group(function (){
-    Route::get('/',function (){
-        return view('home');
-    });
+    Route::get('/','BlogController@blogHome')->name('blog');
+    Route::get('/posts/{post_url}','BlogController@singleBlog')->name('single_blog');
+
 });

@@ -43,4 +43,12 @@ class Post extends Model
     public function tags(){
         return $this->belongsToMany(Tag::class,'post_tag','post_id','tag_id');
     }
+
+    public function archives(){
+        return $this->selectRaw('year(created_at) year,monthname(created_at) month, count(*) count')
+            ->where('is_published',1)
+            ->groupBy('year','month')
+            ->orderByRaw('min(created_at) desc')
+            ->get();
+    }
 }

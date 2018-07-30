@@ -700,36 +700,12 @@
     <div class="entry-widget">
         <h5 class="widget-title">Archive</h5>
         <ul class="archivee">
-            <li>
-                <a href="#"><i class=
-                               "ico-keyboard_arrow_right"></i> October
-                    (2015)</a>
-            </li>
-            <li>
-                <a href="#"><i class=
-                               "ico-keyboard_arrow_right"></i> September
-                    (2015)</a>
-            </li>
-            <li>
-                <a href="#"><i class=
-                               "ico-keyboard_arrow_right"></i> June
-                    (2015)</a>
-            </li>
-            <li>
-                <a href="#"><i class=
-                               "ico-keyboard_arrow_right"></i> May
-                    (2015)</a>
-            </li>
-            <li>
-                <a href="#"><i class=
-                               "ico-keyboard_arrow_right"></i> April
-                    (2015)</a>
-            </li>
-            <li>
-                <a href="#"><i class=
-                               "ico-keyboard_arrow_right"></i>
-                    Marvh(2015)</a>
-            </li>
+            @foreach($archives as $archive)
+                <li>
+                    <a href="/?month={{$archive->month}}&year={{$archive->year}}"><i class="ico-keyboard_arrow_right"></i> {{ $archive->month }}, {{  $archive->year  }} ({{  $archive->count  }})</a>
+                </li>
+            @endforeach
+
         </ul>
     </div>
     <div class="entry-widget">
