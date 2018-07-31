@@ -16,8 +16,8 @@ class CreateReplyTable extends Migration
         Schema::create('reply', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('comment_id')->unsigned();
-            $table->integer('user_id')->unsigned()->nullable();
-            $table->integer('regular_user_id')->unsigned()->nullable();
+            $table->string('author');
+            $table->string('email');
             $table->text('reply');
             $table->timestamps();
 

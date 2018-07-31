@@ -3,10 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Comments;
 use App\Post;
+use App\RegularUser;
 use App\Tag;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Validator;
 
 class BlogController extends Controller
 {
@@ -76,10 +80,38 @@ class BlogController extends Controller
             ->with('category')
             ->with('postMedia')
             ->with('tags')
+            ->with('comments')
             ->where('is_published',1)
             ->where('post_url',$post_url)
             ->first();
+
         return view('article',['post' => $post]);
+    }
+
+    //comments
+    public function comment(Request $request,$id){
+        $validator = Validator::make($request->all(),[
+            'author' => 'required|max:30',
+            'email' => 'required',
+            'comment' => 'required'
+        ]);
+
+        if ($validator->fails()){
+            return redirect()->back()->withErrors($validator->errors())->withInput($request->all());
+        }
+
+        $post = Post::find($id);
+        if (!$post){
+            return redirect()->back()->withInput($request->all())->with('error','Post Not Fond');
+        }
+        $comment = new Comments();
+        $comment->author = $request->input('author');;
+        $comment->email = $request->input('email');
+        $comment->comments = $request->input('comment');
+
+        $post->comments()->save($comment);
+
+        return redirect()->back()->with('success','Comment Add Successfully');
     }
 
 }

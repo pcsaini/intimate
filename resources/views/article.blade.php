@@ -64,19 +64,11 @@
     <!-- Blog Article Start -->
     <article>
         <div class="author">
-            <div class="author-img"><img alt="" src=
-                "img/blog/portfolio.jpg"></div>
+            <div class="author-img"><img alt="" src="{{ asset('Blog/img/portfolio.jpg') }}"></div>
             <div class="author-content">
-                <h4>About Marggaret Gould</h4>
-                <p>Margaret Gould Stewart is Director of
-                    Product Design at Facebook, Inc, leading the
-                    company's user experience efforts around
-                    advertising and business presence. Prior to her
-                    current role, she spent three years leading UX
-                    for YouTube, and two years leading Search and
-                    Consumer Products UX at Google.</p><a class=
-                                                          "btn btn-common btn-more" href="#">Learn More
-                    <i class="ico-arrow-right"></i></a>
+                <h4>User</h4>
+                <p>User Bio</p>
+                <a class="btn btn-common btn-more" href="#">Learn More<i class="ico-arrow-right"></i></a>
             </div>
         </div>
     </article><!-- Blog Article End -->
@@ -85,187 +77,72 @@
         <!-- Start Comment Area -->
         <div id="comments">
             <ol class="comments-list">
-                <li>
-                    <div class="comment-box clearfix">
-                        <div class="avatar">
-                            <a href="#"><img alt="" src=
-                                "img/blog/user1.jpg"></a>
-                        </div>
-                        <div class="comment-content">
-                            <div class="comment-meta">
-                                <h4 class="comment-by"><a href=
-                                                          "#">Anna Ostyankoa</a></h4>
+                @foreach($post->comments as $comment)
+                    <li>
+                        <div class="comment-box clearfix">
+                            <div class="avatar">
+                                <a href="#"><img alt="" src="{{ asset('Blog/img/post3.jpg') }}"></a>
                             </div>
-                            <p>Lorem ipsum dolor sit amet,
-                                consectetur adipisicing elit, sed
-                                do eiusmod tempor incididunt ut
-                                labore et dolore magna aliqua. Ut
-                                enim ad minim veniam, quis nostrud
-                                exercitation ullamco laboris nisi
-                                ut aliquip ex ea commodo
-                                consequat.</p><a class="reply-link"
-                                                 href="#">Reply</a>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <ul>
-                        <li>
-                            <div class="comment-box clearfix">
-                                <div class="avatar">
-                                    <a href="#"><img alt=""
-                                                     src="img/blog/user2.jpg"></a>
+                            <div class="comment-content">
+                                <div class="comment-meta">
+                                    <h4 class="comment-by"><a href="#">{{ $comment->author }}</a></h4>
+                                    <span>{{ $comment->email }} - {{ $comment->created_at }}</span>
                                 </div>
-                                <div class="comment-content">
-                                    <div class="comment-meta">
-                                        <h4 class="comment-by">
-                                            <a href="#">Anna
-                                                Ostyankoa</a></h4>
-                                    </div>
-                                    <p>Lorem ipsum dolor sit
-                                        amet, consectetur
-                                        adipisicing elit, sed do
-                                        eiusmod tempor incididunt
-                                        ut labore et dolore magna
-                                        aliqua. Ut enim ad minim
-                                        veniam, quis nostrud
-                                        exercitation ullamco
-                                        laboris nisi ut aliquip ex
-                                        ea commodo
-                                        consequat.</p><a class=
-                                                         "reply-link" href=
-                                                         "#">Reply</a>
-                                </div>
+                                <p>{{ $comment->comments }}</p>
+                                <?php
+                                    $comment_id = $comment->id;
+                                    echo '<a class="reply-link" href="#respond" onclick="Reply('.$comment_id.')">Reply</a>'
+                                ?>
                             </div>
-                        </li>
-                        <li>
-                            <div class="comment-box clearfix">
-                                <div class="avatar">
-                                    <a href="#"><img alt=""
-                                                     src="img/blog/user2.jpg"></a>
-                                </div>
-                                <div class="comment-content">
-                                    <div class="comment-meta">
-                                        <h4 class="comment-by">
-                                            <a href="#">Anna
-                                                Ostyankoa</a></h4>
-                                    </div>
-                                    <p>Lorem ipsum dolor sit
-                                        amet, consectetur
-                                        adipisicing elit, sed do
-                                        eiusmod tempor incididunt
-                                        ut labore et dolore magna
-                                        aliqua. Ut enim ad minim
-                                        veniam, quis nostrud
-                                        exercitation ullamco
-                                        laboris nisi ut aliquip ex
-                                        ea commodo
-                                        consequat.</p><a class=
-                                                         "reply-link" href=
-                                                         "#">Reply</a>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <div class="comment-box clearfix">
-                        <div class="avatar">
-                            <a href="#"><img alt="" src=
-                                "img/blog/user4.jpg"></a>
                         </div>
-                        <div class="comment-content">
-                            <div class="comment-meta">
-                                <h4 class="comment-by"><a href=
-                                                          "#">Anna Ostyankoa</a></h4>
-                            </div>
-                            <p>Lorem ipsum dolor sit amet,
-                                consectetur adipisicing elit, sed
-                                do eiusmod tempor incididunt ut
-                                labore et dolore magna aliqua. Ut
-                                enim ad minim veniam, quis nostrud
-                                exercitation ullamco laboris nisi
-                                ut aliquip ex ea commodo
-                                consequat.</p><a class="reply-link"
-                                                 href="#">Reply</a>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="comment-box clearfix">
-                        <div class="avatar">
-                            <a href="#"><img alt="" src=
-                                "img/blog/user4.jpg"></a>
-                        </div>
-                        <div class="comment-content">
-                            <div class="comment-meta">
-                                <h4 class="comment-by"><a href=
-                                                          "#">Anna Ostyankoa</a></h4>
-                            </div>
-                            <p>Lorem ipsum dolor sit amet,
-                                consectetur adipisicing elit, sed
-                                do eiusmod tempor incididunt ut
-                                labore et dolore magna aliqua. Ut
-                                enim ad minim veniam, quis nostrud
-                                exercitation ullamco laboris nisi
-                                ut aliquip ex ea commodo
-                                consequat.</p><a class="reply-link"
-                                                 href="#">Reply</a>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="comment-box clearfix">
-                        <div class="avatar">
-                            <a href="#"><img alt="" src=
-                                "img/blog/user4.jpg"></a>
-                        </div>
-                        <div class="comment-content">
-                            <div class="comment-meta">
-                                <h4 class="comment-by"><a href=
-                                                          "#">Anna Ostyankoa</a></h4>
-                            </div>
-                            <p>Lorem ipsum dolor sit amet,
-                                consectetur adipisicing elit, sed
-                                do eiusmod tempor incididunt ut
-                                labore et dolore magna aliqua. Ut
-                                enim ad minim veniam, quis nostrud
-                                exercitation ullamco laboris nisi
-                                ut aliquip ex ea commodo
-                                consequat.</p><a class="reply-link"
-                                                 href="#">Reply</a>
-                        </div>
-                    </div>
-                </li>
+                    </li>
+                @endforeach
             </ol>
         </div><!-- End Comment Area -->
     </article><!-- Blog Article End -->
+    <script>
+        function Reply($comment_id) {
+            $('#comment_id').val($comment_id);
+            document.getElementById("author").focus();
+        }
+    </script>
     <!-- Blog Article Start -->
     <article>
         <!-- Start Respond Form -->
         <div id="respond">
             <h2 class="respond-title">Add Comment</h2>
-            <form action="#">
+            @if(session('error'))
+                <div class="alert alert-danger">{{ session('error') }}</div>
+            @endif
+
+            @if(session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+            @endif
+            <form action="{{ route('blog.comment',$post->id) }}" method="post" role="form">
+                @csrf
+                <input type="hidden" id="comment_id" name="comment_id" value="">
                 <div class="row">
                     <div class="col-md-6">
-                        <input class="form-control" id="author"
-                               name="author" placeholder="Name" size=
-                               "30" type="text" value="">
+                        <input class="form-control" id="author" name="author" placeholder="Name" type="text" value="{{old('author')}}">
+                        @if($errors->has('email'))
+                            <label class="text-danger">{{ $errors->first('author') }}</label>
+                        @endif
                     </div>
                     <div class="col-md-6">
-                        <input class="form-control" id="email"
-                               name="author" placeholder="Email" size=
-                               "30" type="text" value="">
+                        <input class="form-control" name="email" placeholder="Email" type="email" value="{{old('email')}}">
+                        @if($errors->has('email'))
+                            <label class="text-danger">{{ $errors->first('email') }}</label>
+                        @endif
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                                        <textarea class="form-control" cols=
-                                        "45" id="comment" name="comment"
-                                                  placeholder="Comment" rows="8">
-</textarea> <a class="btn btn-common btn-more"
-               id="submit" type="submit"><i class=
-                                            "fa fa-check"></i> Submit Comment</a>
+                        <textarea class="form-control" cols="45" name="comment" placeholder="Comment" rows="8"></textarea>
+                        @if($errors->has('email'))
+                            <label class="text-danger">{{ $errors->first('comment') }}</label>
+                        @endif
+                        <br>
+                        <button class="btn btn-danger btn-more" type="submit"><i class="fa fa-check"></i> Comment</button>
                     </div>
                 </div>
             </form>

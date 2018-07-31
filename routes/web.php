@@ -80,5 +80,5 @@ Route::name('blog.')->group(function (){
     Route::get('/posts/tag/{id}/{tag}','BlogController@postByTags')->name('post_by_tags');
     Route::get('/posts/user/{id}/{user}','BlogController@postByUsers')->name('post_by_users');
     Route::get('/post/{post_url}','BlogController@singleBlog')->name('single_blog');
-    Route::get('posts','BlogController@blogs');
+    Route::post('/post/{id}/comment','BlogController@comment')->name('comment');
 });
