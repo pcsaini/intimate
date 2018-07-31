@@ -20,7 +20,6 @@
 @endsection
 
 @section('content')
-
     @foreach($posts as $post)
         <article>
             <!-- Blog item Start -->
@@ -65,6 +64,27 @@
             </div><!-- Blog item End -->
         </article>
     @endforeach
+
+    @if($posts->lastPage() > 1)
+        <article>
+            <!-- Pagination Start -->
+            <ul class="pager">
+                @if($posts->previousPageUrl())
+                    <li class="previous">
+                        <a href="{{ $posts->previousPageUrl() }}"><i class="ico-arrow-left"></i>Previous</a>
+                    </li>
+                @endif
+                @if($posts->nextPageUrl())
+                    <li class="next">
+                        <a href="{{ $posts->nextPageUrl() }}">Next <i class="ico-arrow-right"></i></a>
+                    </li>
+                @endif
+
+            </ul><!-- Pagination End -->
+        </article><!-- Blog Article End-->
+    @endif
+
+
 
 
 @endsection

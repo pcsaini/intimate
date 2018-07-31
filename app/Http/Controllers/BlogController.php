@@ -16,7 +16,7 @@ class BlogController extends Controller
             ->with('postMedia')
             ->where('is_published',1)
             ->orderBy('created_at','decs')
-            ->get();
+            ->paginate(5);
 
         return view('home',['posts' => $posts]);
     }
@@ -29,7 +29,7 @@ class BlogController extends Controller
             ->whereMonth('created_at',Carbon::parse($month)->month)
             ->whereYear('created_at',$year)
             ->orderBy('created_at','decs')
-            ->get();
+            ->paginate(5);
 
         return view('home',['posts' => $posts]);
     }
@@ -42,7 +42,7 @@ class BlogController extends Controller
             ->where('is_published',1)
             ->where('post_tag.tag_id',$id)
             ->orderBy('created_at','decs')
-            ->get();
+            ->paginate(5);
 
         return view('home',['posts' => $posts]);
     }
@@ -54,7 +54,7 @@ class BlogController extends Controller
             ->where('is_published',1)
             ->where('user_id',$id)
             ->orderBy('created_at','decs')
-            ->get();
+            ->paginate(5);
 
         return view('home',['posts' => $posts]);
     }
@@ -66,7 +66,7 @@ class BlogController extends Controller
             ->where('is_published',1)
             ->where('category_id',$cat_id)
             ->orderBy('created_at','decs')
-            ->get();
+            ->paginate(5);
 
         return view('home',['posts' => $posts]);
     }
