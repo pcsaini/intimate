@@ -55,7 +55,7 @@ class Post extends Model
     public function tagsList(){
         $tags = Tag::has('posts')->get();
         foreach ($tags as $tag){
-            $class = array_random(['medium','large','medium']);
+            $class = array_random(['madium','large',' ','madium',' ']);
             $tag->class = $class;
         }
         return $tags;

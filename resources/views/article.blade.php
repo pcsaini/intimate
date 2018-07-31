@@ -14,7 +14,7 @@
                             <span class="meta-part">
                                 <i class="ico-user"></i> <a href="{{route('blog.post_by_users',[$post->user_id,str_replace(' ','-',strtolower($post->user->name))]) }}">{{ $post->user->name }}</a></span>
                             <span class="meta-part">
-                                <i class="ico-calendar-alt-fill"></i> <a href="#">{{ date('l jS, F Y ',strtotime($post->created_at)) }}</a></span>
+                                <i class="ico-calendar-alt-fill"></i> <a href="#">{{ date('F j, Y ',strtotime($post->created_at)) }}</a></span>
                             <span class="meta-part">
                                 <i class="ico-comments"></i> <a href="#">20</a></span>
                             <span class="meta-part">

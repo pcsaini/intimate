@@ -25,6 +25,31 @@
             </div>
         </div>
     </div>
+
+    <div class="entry-widget">
+        <h5 class="widget-title">Category</h5>
+        <ul class="archivee">
+            @foreach($category as $cat)
+                <li>
+                    <a href="{{ route('blog.post_by_category',[$cat->id,str_replace(' ','-',strtolower($cat->category))]) }}"><i class="ico-keyboard_arrow_right"></i> {{ $cat->category }}</a>
+                </li>
+            @endforeach
+
+        </ul>
+    </div>
+
+    <div class="entry-widget">
+        <h5 class="widget-title">Archive</h5>
+        <ul class="archivee">
+            @foreach($archives as $archive)
+                <li>
+                    <a href="{{ route('blog.post_by_archives',[$archive->month,$archive->year]) }}"><i class="ico-keyboard_arrow_right"></i> {{ $archive->month }}, {{  $archive->year  }} ({{  $archive->count  }})</a>
+                </li>
+            @endforeach
+
+        </ul>
+    </div>
+
     <div class="entry-widget">
         <!-- Nav Tabs -->
         <ul class="nav nav-tabs">
@@ -46,212 +71,50 @@
             <div class="tab-pane in active fadeInDown" id=
             "tab1">
                 <ul class="posts-list">
-                    <li>
-                        <div class="widget-thumb">
-                            <a href="#"><img alt="" src=
-                                "img/post/post1.jpg"></a>
-                        </div>
-                        <div class="widget-content">
-                            <a href="#">Aladdin rides
-                                'magic carpet' at New York in
-                                Halloween prank</a>
-                            <div class="meta">
-                                                    <span><i class=
-                                                             "ico-calendar-alt-fill"></i>
-                                                    October 7,2015</span>
-                                <span><i class=
-                                         "ico-tag"></i>
-                                                    Technology</span>
+                    @foreach($latest_posts as $post)
+                        <li>
+                            <div class="widget-thumb">
+                                <a href="{{ route('blog.single_blog',$post->post_url) }}"><img alt="" src="{{ asset('/post_media/'.$post->postMedia[0]->media)  }}"></a>
                             </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </li>
-                    <li>
-                        <div class="widget-thumb">
-                            <a href="#"><img alt="" src=
-                                "img/post/post2.jpg"></a>
-                        </div>
-                        <div class="widget-content">
-                            <a href="#">Romania calls for 3
-                                days of mourning after
-                                nightclub fire kills at least
-                                27</a>
-                            <div class="meta">
-                                                    <span><i class=
-                                                             "ico-calendar-alt-fill"></i>
-                                                    October 7,2015</span>
-                                <span><i class=
-                                         "ico-tag"></i>
-                                                    Technology</span>
+                            <br>
+                            <div class="widget-content">
+                                <a href="{{ route('blog.single_blog',$post->post_url) }}">{{ $post->post_title }}</a>
+                                <div class="meta">
+                                    <span><i class="ico-calendar-alt-fill"></i>
+                                        {{ date('F j, Y ',strtotime($post->created_at)) }}
+                                    </span>
+                                    <span><i class="ico-tag"></i>
+                                        {{ $post->category->category }}
+                                    </span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </li>
-                    <li>
-                        <div class="widget-thumb">
-                            <a href="#"><img alt="" src=
-                                "img/post/post3.jpg"></a>
-                        </div>
-                        <div class="widget-content">
-                            <a href="#">New Zealand makes
-                                history by winning third Rugby
-                                WC</a>
-                            <div class="meta">
-                                                    <span><i class=
-                                                             "ico-calendar-alt-fill"></i>
-                                                    October 7,2015</span>
-                                <span><i class=
-                                         "ico-tag"></i>
-                                                    Technology</span>
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </li>
-                    <li>
-                        <div class="widget-thumb">
-                            <a href="#"><img alt="" src=
-                                "img/post/post4.jpg"></a>
-                        </div>
-                        <div class="widget-content">
-                            <a href="#">3 years of 'Star
-                                Wars Episode VII' fandom,
-                                celebrated</a>
-                            <div class="meta">
-                                                    <span><i class=
-                                                             "ico-calendar-alt-fill"></i>
-                                                    October 7,2015</span>
-                                <span><i class=
-                                         "ico-tag"></i>
-                                                    Technology</span>
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </li>
-                    <li>
-                        <div class="widget-thumb">
-                            <a href="#"><img alt="" src=
-                                "img/post/post5.jpg"></a>
-                        </div>
-                        <div class="widget-content">
-                            <a href="#">Darth Vader is
-                                having a rough day thanks to an
-                                unruly hoverboard</a>
-                            <div class="meta">
-                                                    <span><i class=
-                                                             "ico-calendar-alt-fill"></i>
-                                                    October 7,2015</span>
-                                <span><i class=
-                                         "ico-tag"></i>
-                                                    Technology</span>
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </li>
+                            <div class="clearfix"></div>
+                        </li>
+                    @endforeach
                 </ul>
             </div><!-- Tab Content 2 -->
             <div class="tab-pane fadeInDown" id="tab2">
                 <ul class="posts-list">
-                    <li>
-                        <div class="widget-thumb">
-                            <a href="#"><img alt="" src=
-                                "img/post/post5.jpg"></a>
-                        </div>
-                        <div class="widget-content">
-                            <a href="#">Aladdin rides
-                                'magic carpet' at New York in
-                                Halloween prank</a>
-                            <div class="meta">
-                                                    <span><i class=
-                                                             "ico-calendar-alt-fill"></i>
-                                                    October 7,2015</span>
-                                <span><i class=
-                                         "ico-tag"></i>
-                                                    Technology</span>
+                    @foreach($popular_posts as $post)
+                        <li>
+                            <div class="widget-thumb">
+                                <a href="{{ route('blog.single_blog',$post->post_url) }}"><img alt="" src="{{ asset('/post_media/'.$post->postMedia[0]->media)  }}"></a>
                             </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </li>
-                    <li>
-                        <div class="widget-thumb">
-                            <a href="#"><img alt="" src=
-                                "img/post/post4.jpg"></a>
-                        </div>
-                        <div class="widget-content">
-                            <a href="#">Romania calls for 3
-                                days of mourning after
-                                nightclub fire kills at least
-                                27</a>
-                            <div class="meta">
-                                                    <span><i class=
-                                                             "ico-calendar-alt-fill"></i>
-                                                    October 7,2015</span>
-                                <span><i class=
-                                         "ico-tag"></i>
-                                                    Technology</span>
+                            <br>
+                            <div class="widget-content">
+                                <a href="{{ route('blog.single_blog',$post->post_url) }}">{{ $post->post_title }}</a>
+                                <div class="meta">
+                                    <span><i class="ico-calendar-alt-fill"></i>
+                                        {{ date('F j, Y ',strtotime($post->created_at)) }}
+                                    </span>
+                                    <span><i class="ico-tag"></i>
+                                        {{ $post->category->category }}
+                                    </span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </li>
-                    <li>
-                        <div class="widget-thumb">
-                            <a href="#"><img alt="" src=
-                                "img/post/post3.jpg"></a>
-                        </div>
-                        <div class="widget-content">
-                            <a href="#">New Zealand makes
-                                history by winning third Rugby
-                                WC</a>
-                            <div class="meta">
-                                                    <span><i class=
-                                                             "ico-calendar-alt-fill"></i>
-                                                    October 7,2015</span>
-                                <span><i class=
-                                         "ico-tag"></i>
-                                                    Technology</span>
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </li>
-                    <li>
-                        <div class="widget-thumb">
-                            <a href="#"><img alt="" src=
-                                "img/post/post2.jpg"></a>
-                        </div>
-                        <div class="widget-content">
-                            <a href="#">3 years of 'Star
-                                Wars Episode VII' fandom,
-                                celebrated</a>
-                            <div class="meta">
-                                                    <span><i class=
-                                                             "ico-calendar-alt-fill"></i>
-                                                    October 7,2015</span>
-                                <span><i class=
-                                         "ico-tag"></i>
-                                                    Technology</span>
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </li>
-                    <li>
-                        <div class="widget-thumb">
-                            <a href="#"><img alt="" src=
-                                "img/post/post1.jpg"></a>
-                        </div>
-                        <div class="widget-content">
-                            <a href="#">Darth Vader is
-                                having a rough day thanks to an
-                                unruly hoverboard</a>
-                            <div class="meta">
-                                                    <span><i class=
-                                                             "ico-calendar-alt-fill"></i>
-                                                    October 7,2015</span>
-                                <span><i class=
-                                         "ico-tag"></i>
-                                                    Technology</span>
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </li>
+                            <div class="clearfix"></div>
+                        </li>
+                    @endforeach
                 </ul>
             </div><!-- End Tab Content 2 -->
             <!-- Tab Content 3 -->
@@ -366,31 +229,6 @@
     </div>
 
     <div class="entry-widget">
-        <h5 class="widget-title">Category</h5>
-        <ul class="archivee">
-            @foreach($category as $cat)
-                <li>
-                    <a href="{{ route('blog.post_by_category',[$cat->id,str_replace(' ','-',strtolower($cat->category))]) }}"><i class="ico-keyboard_arrow_right"></i> {{ $cat->category }}</a>
-                </li>
-            @endforeach
-
-        </ul>
-    </div>
-
-    <div class="entry-widget">
-        <h5 class="widget-title">Archive</h5>
-        <ul class="archivee">
-            @foreach($archives as $archive)
-                <li>
-                    <a href="{{ route('blog.post_by_archives',[$archive->month,$archive->year]) }}"><i class="ico-keyboard_arrow_right"></i> {{ $archive->month }}, {{  $archive->year  }} ({{  $archive->count  }})</a>
-                </li>
-            @endforeach
-
-        </ul>
-    </div>
-
-
-    <div class="entry-widget">
         <h5 class="widget-title">Tags</h5>
         <div class="tag">
             @foreach($tags as $tag)
@@ -398,28 +236,17 @@
             @endforeach
         </div>
     </div>
+
     <div class="entry-widget">
         <h5 class="widget-title">Meta</h5>
         <ul class="meta-list">
             <li>
-                <a href="#"><i class=
-                               "ico-keyboard_arrow_right"></i> Log In</a>
+                <a href="{{ route('get_login') }}"><i class="ico-keyboard_arrow_right"></i> Log In</a>
             </li>
             <li>
-                <a href="#"><i class=
-                               "ico-keyboard_arrow_right"></i> Entries
-                    RSS</a>
+                <a href="{{ route('get_register') }}"><i class="ico-keyboard_arrow_right"></i> Register</a>
             </li>
-            <li>
-                <a href="#"><i class=
-                               "ico-keyboard_arrow_right"></i> Comments
-                    RSS</a>
-            </li>
-            <li>
-                <a href="#"><i class=
-                               "ico-keyboard_arrow_right"></i>
-                    WordPress.org</a>
-            </li>
+
         </ul>
     </div>
 </div>

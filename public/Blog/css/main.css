@@ -764,7 +764,7 @@ article .pager span a {
   opacity: 0.7;
 }
 .posts-list li .widget-content {
-  margin-left: 85px;
+
 }
 .posts-list li .widget-content a {
   font-size: 14px;
@@ -886,8 +886,8 @@ article .pager span a {
   font-weight: 600;
 }
 .tag .madium {
-  font-size: 22px;
-  font-weight: 500;
+  font-size: 24px;
+  font-weight: 800;
 }
 .archivee,
 .meta-list {
@@ -1101,7 +1101,6 @@ article .pager span a {
   -webkit-transition: all 0.7s ease;
   -moz-transition: all 0.7s ease;
   -ms-transition: all 0.7s ease;
-  -0-transition: all 0.7s ease;
   transition: all 0.7s ease;
 }
 .controls li:hover,
@@ -1119,7 +1118,6 @@ article .pager span a {
 .portfolio-img {
   overflow: hidden;
   display: block;
-  visibility: back;
   position: relative;
 }
 .portfolio-img .portfolio-item-content {
