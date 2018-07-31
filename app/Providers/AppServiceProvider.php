@@ -21,15 +21,27 @@ class AppServiceProvider extends ServiceProvider
 
         view()->composer('layouts.sidebar',function ($view){
             $post = new Post();
+
+            //get archives
+            $archives = $post->archives();
+
+            //get category list
             $category = Category::where('is_active',1)->get();
-            $tags = Tag::has('posts')->get();
-            foreach ($tags as $tag){
-                $class = array_random(['medium','large','medium']);
-                $tag->class = $class;
-            }
-            $view->with('archives',$post->archives())
+
+            //get tags list
+            $tags = $post->tagsList();
+
+            //get latest posts
+            $latest_posts = $post->latestPosts();
+
+            //get popular posts
+            $popular_posts = $post->popularPosts();
+
+            $view->with('archives',$archives)
                 ->with('category',$category)
-                ->with('tags',$tags);
+                ->with('tags',$tags)
+                ->with('latest_posts',$latest_posts)
+                ->with('popular_posts',$popular_posts);
         });
 
         view()->composer('layouts.header',function ($view){

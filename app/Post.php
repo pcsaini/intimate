@@ -52,6 +52,34 @@ class Post extends Model
             ->get();
     }
 
+    public function tagsList(){
+        $tags = Tag::has('posts')->get();
+        foreach ($tags as $tag){
+            $class = array_random(['medium','large','medium']);
+            $tag->class = $class;
+        }
+        return $tags;
+    }
+
+    public function latestPosts(){
+        return $this->with('category')
+            ->with('postMedia')
+            ->where('is_published',1)
+            ->limit(5)
+            ->orderBy('created_at','decs')
+            ->get();
+    }
+
+    public function popularPosts(){
+        return $this->with('category')
+            ->with('postMedia')
+            ->where('is_published',1)
+            ->where('is_popular',1)
+            ->limit(5)
+            ->orderBy('created_at','decs')
+            ->get();
+    }
+
     public function urlEncode($string){
         $url = preg_replace("/[#$%^&*()+=\-\_\[\]\`\‘\’\';,.\/{}|\":<>?@!~\\\\]/",'',$string);
         $url = str_replace(' ','-',strtolower($url));

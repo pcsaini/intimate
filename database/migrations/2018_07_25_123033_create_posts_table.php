@@ -20,6 +20,7 @@ class CreatePostsTable extends Migration
             $table->string('post_title');
             $table->string('post_url')->unique();
             $table->text('post');
+            $table->boolean('is_popular')->default(0)->comment('0 - Regular, 1 - Popular');
             $table->boolean('is_published')->default(0)->comment('0 - Draft, 1 - Published');
 
             $table->foreign('user_id')->references('id')->on('users');
