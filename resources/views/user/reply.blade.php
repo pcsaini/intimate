@@ -1,6 +1,6 @@
 @extends('super.master')
 
-@section('page_title', 'Post | Intimate Blog')
+@section('page_title', 'Reply - Intimate Blog')
 
 @section('style')
     <link href="{{ asset('Admin/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
@@ -10,10 +10,14 @@
     <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
         <div class="row">
             <ol class="breadcrumb">
-                <li><a href="#">
+                <li><a href="{{ route('user.dashboard') }}">
                         <em class="fa fa-home"></em>
                     </a></li>
-                <li class="active">Post</li>
+                <li><a href="{{ route('user.get_posts') }}">
+                        Posts
+                    </a></li>
+                <li class="active">Comments</li>
+                <li class="active">Reply</li>
             </ol>
         </div><!--/.row-->
 
@@ -21,10 +25,9 @@
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Posts
-                        <a href="{{ route('user.get_add_post') }}" class="btn btn-primary pull-right">Add New Post</a>
+                        Reply
                     </div>
-                    <div class="panel panel-body">
+                    <div class="panel-body">
 
                         @if(session('success'))
                             <div class="alert alert-success">{{ session('success') }}</div>
@@ -34,26 +37,20 @@
                             <div class="alert alert-danger">{{ session('error') }}</div>
                         @endif
 
-                        <table id="posts" class="table table-bordered table-hover" style="width: 100%;">
+                        <table id="category" class="table table-bordered table-hover" style="width: 100%;">
                             <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Post Title</th>
-                                <th>Post Category</th>
-                                <th>Post Tags</th>
-                                <th>Status</th>
-                                <th>Comments</th>
+                                <th>Author Name</th>
+                                <th>Email</th>
+                                <th>Reply</th>
                                 <th>Option</th>
                             </tr>
                             </thead>
                             <tfoot>
                             <tr>
-                                <th>ID</th>
-                                <th>Post Title</th>
-                                <th>Post Category</th>
-                                <th>Post Tags</th>
-                                <th>Status</th>
-                                <th>Comments</th>
+                                <th>Author Name</th>
+                                <th>Email</th>
+                                <th>Reply</th>
                                 <th>Option</th>
                             </tr>
                             </tfoot>
@@ -61,6 +58,7 @@
                     </div>
                 </div>
             </div>
+
         </div><!--/.row-->
     </div>
 @endsection
@@ -70,22 +68,19 @@
     <script src="{{ asset('Admin/js/dataTables.bootstrap.min.js') }}"></script>
     <script>
         $(document).ready(function () {
-            $('#posts').DataTable({
+            $('#category').DataTable({
                 "processing": true,
                 "serverSide": true,
                 "ajax":{
-                    "url": "{{ route('user.posts') }}",
+                    "url": "{{ route('user.reply',$comment_id) }}",
                     "dataType": "json",
                     "type": "POST",
                     "data":{ _token: "{{csrf_token()}}"}
                 },
                 "columns": [
-                    { "data": "id" },
-                    { "data": "post_title" },
-                    { "data": "post_category" },
-                    { "data": "post_tags" },
-                    { "data": "status" },
-                    { "data": "comments" },
+                    { "data": "author" },
+                    { "data": "email" },
+                    { "data": "reply" },
                     { "data": "options"},
                 ]
             });

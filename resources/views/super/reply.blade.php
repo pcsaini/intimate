@@ -26,7 +26,6 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         Reply
-                        <a class="btn btn-primary pull-right" href="{{ route('super.get_add_user') }}">Add New User</a>
                     </div>
                     <div class="panel-body">
 

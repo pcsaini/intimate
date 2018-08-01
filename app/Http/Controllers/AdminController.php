@@ -686,20 +686,15 @@ class AdminController extends Controller
     public function deleteComment($id){
         $comment = Comments::find($id);
         if (!$comment){
-            return redirect()->back()->with('error','Reply Not Found');
+            return redirect()->back()->with('error','comment Not Found');
         }
-        $delete = Reply::where('comment_id',$id)->delete();
-        if ($delete) {
-            $result = $comment->delete();
-
-            if (!$result) {
-                return redirect()->back()->with('error', 'Problem to Delete Reply');
-            }
-        }else{
-            return redirect()->back()->with('error', 'Problem to Delete Reply');
+        Reply::where('comment_id',$id)->delete();
+        $result = $comment->delete();
+        if (!$result) {
+            return redirect()->back()->with('error', 'Problem to comment Reply');
         }
 
-        return redirect()->back()->with('success','Reply Delete Successfully');
+        return redirect()->back()->with('success','comment Delete Successfully');
     }
 
     /**

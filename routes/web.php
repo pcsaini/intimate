@@ -74,11 +74,36 @@ Route::name('super.')->middleware('is_admin:1')->prefix('super')->group(function
 //User Routes
 Route::name('user.')->middleware('auth')->prefix('user')->group(function (){
     Route::get('dashboard','UserController@getDashboard')->name('dashboard');
+
+    //Category
     Route::get('category','UserController@getCategory')->name('get_category');
+    Route::post('category','UserController@category')->name('category');
+    Route::get('add_category','UserController@getAddCategory')->name('get_add_category');
+    Route::post('save_category','UserController@saveCategory')->name('save_category');
+
+    //Post
     Route::get('posts','UserController@getPosts')->name('get_posts');
-    Route::get('comments','UserController@getComments')->name('get_comments');
-    Route::get('add_post','UserController@getAddNewPost')->name('get_add_post');
+    Route::post('posts','UserController@posts')->name('posts');
+    Route::get('edit_post/{id}','UserController@editPost')->name('edit_post');
+    Route::get('delete_post/{id}','UserController@deletePost')->name('delete_post');
+    Route::get('publish_post/{id}','UserController@publishPost')->name('publish_post');
+    Route::get('add_post','UserController@getAddPost')->name('get_add_post');
+    Route::post('save_post','UserController@savePost')->name('save_post');
+
+
+    //Comments
+    Route::get('posts/{id}/comments','UserController@getComments')->name('get_comments');
+    Route::post('posts/{id}/comments','UserController@comments')->name('comments');
+    Route::get('delete_comment/{id}','UserController@deleteComment')->name('delete_comment');
+
+    //Replies
+    Route::get('comments/{id}/reply','UserController@getReply')->name('get_reply');
+    Route::post('comments/{id}/reply','UserController@reply')->name('reply');
+    Route::get('delete_reply/{id}','UserController@deleteReply')->name('delete_reply');
+
+    //Profile
     Route::get('profile','UserController@getProfile')->name('get_profile');
+    Route::post('profile','UserController@profile')->name('profile');
 });
 
 
