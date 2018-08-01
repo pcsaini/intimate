@@ -75,6 +75,15 @@
     <article>
         <!-- Start Comment Area -->
         <div id="comments">
+            <?php
+                $count = $post->comments->count();
+                $reply_count = 0;
+                foreach($post->comments as $comment){
+                    $reply_count = $reply_count + $comment->reply->count();
+                }
+                $count = $count + $reply_count;
+            ?>
+            <h3>{{$count}} comments</h3>
             <ol class="comments-list">
                 @foreach($post->comments as $comment)
                     <li>
@@ -174,105 +183,31 @@
     <!-- Blog Article Start -->
     <article>
         <div class="relate-post">
-            <h4>Releate Post</h4>
+            <h4>Related Post</h4>
             <div class="row">
-                <div class="col-sm-6">
-                    <ul class="posts-list">
-                        <li>
-                            <div class="widget-thumb">
-                                <a href="#"><img alt="" src=
-                                    "img/post/post1.jpg"></a>
-                            </div>
-                            <div class="widget-content">
-                                <a href="#">Aladdin rides
-                                    'magic carpet' at New York in
-                                    Halloween prank</a>
-                                <div class="meta">
-                                                    <span><i class=
-                                                             "ico-calendar-alt-fill"></i>
-                                                    October 7,2015</span>
-                                    <span><i class=
-                                             "ico-tag"></i>
-                                                    Technology</span>
+                @foreach($related_posts as $post)
+                    <div class="col-sm-4">
+                        <ul class="posts-list">
+                            <li>
+                                <div class="widget-thumb">
+                                    <a href="#"><img alt="" src="{{ asset('/post_media/'.$post->postMedia[0]->media)  }}"></a>
                                 </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-sm-6">
-                    <ul class="posts-list">
-                        <li>
-                            <div class="widget-thumb">
-                                <a href="#"><img alt="" src=
-                                    "img/post/post2.jpg"></a>
-                            </div>
-                            <div class="widget-content">
-                                <a href="#">New Zealand makes
-                                    history by winning third Rugby
-                                    WC</a>
-                                <div class="meta">
-                                                    <span><i class=
-                                                             "ico-calendar-alt-fill"></i>
-                                                    October 7,2015</span>
-                                    <span><i class=
-                                             "ico-tag"></i>
-                                                    Technology</span>
+                                <br>
+                                <div class="widget-content">
+                                    <a href="{{ route('blog.single_blog',$post->post_url) }}">{{ $post->post_title }}</a>
+
+                                    <div class="meta">
+                                        <span><i class="ico-calendar-alt-fill"></i>{{ date('F j, Y ',strtotime($post->created_at)) }}</span>
+                                        <span><i class="ico-tag"></i>{{ $post->category->category }}</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-sm-6">
-                    <ul class="posts-list">
-                        <li>
-                            <div class="widget-thumb">
-                                <a href="#"><img alt="" src=
-                                    "img/post/post3.jpg"></a>
-                            </div>
-                            <div class="widget-content">
-                                <a href="#">Romania calls for 3
-                                    days of mourning after
-                                    nightclub fire kills at least
-                                    27</a>
-                                <div class="meta">
-                                                    <span><i class=
-                                                             "ico-calendar-alt-fill"></i>
-                                                    October 7,2015</span>
-                                    <span><i class=
-                                             "ico-tag"></i>
-                                                    Technology</span>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-sm-6">
-                    <ul class="posts-list">
-                        <li>
-                            <div class="widget-thumb">
-                                <a href="#"><img alt="" src=
-                                    "img/post/post4.jpg"></a>
-                            </div>
-                            <div class="widget-content">
-                                <a href="#">3 years of 'Star
-                                    Wars Episode VII' fandom,
-                                    celebrated</a>
-                                <div class="meta">
-                                                    <span><i class=
-                                                             "ico-calendar-alt-fill"></i>
-                                                    October 7,2015</span>
-                                    <span><i class=
-                                             "ico-tag"></i>
-                                                    Technology</span>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </li>
-                    </ul>
-                </div>
+                                <div class="clearfix"></div>
+                            </li>
+                        </ul>
+                    </div>
+
+                @endforeach
+
             </div>
         </div>
     </article><!-- Blog Article End -->

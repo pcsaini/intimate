@@ -89,7 +89,26 @@ class BlogController extends Controller
             ->where('post_id',$post->id)
             ->get();
         $post->comments = $comments;
-        return view('article',['post' => $post]);
+        $post_tag = [];
+        foreach ($post->tags as $tag){
+            $post_tag[] = $tag->id;
+        }
+
+        $related_posts_id = Post::rightJoin('post_tag','posts.id','=','post_tag.post_id')->whereIn('post_tag.tag_id',$post_tag)->get(['posts.id'])->toArray();
+        $ids = [];
+        foreach ($related_posts_id as $id){
+            if(in_array($id,$ids)){
+                continue;
+            }else{
+                $ids[] = $id;
+            }
+        }
+        $related_posts = Post::with('category')
+            ->with('postMedia')
+            ->whereIn('id',$ids)
+            ->where('is_published',1)
+            ->get();
+        return view('article',['post' => $post,'related_posts'=>$related_posts]);
     }
 
     //comments
