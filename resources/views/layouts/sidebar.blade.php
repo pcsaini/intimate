@@ -1,8 +1,8 @@
 <div class="sidebar">
     <div class="entry-widget">
         <div class="widget-profile">
-            <div class="image"><img alt="" src="{{ asset('Blog/img/blog/cover.jpg') }}"></div>
-            <div class="portfolio"><img alt="" src="{{ asset('Blog/img/blog/portfolio.jpg') }}"></div>
+            <div class="image"><img alt="" src="{{ asset('Blog/img/cover.jpg') }}"></div>
+            <div class="portfolio"><img alt="" src="{{ asset('Blog/img/portfolio.jpg') }}"></div>
             <div class="info">
                 <h3 class="name">Margaret Gould</h3>
                 <p class="details">Margaret Gould Stewart

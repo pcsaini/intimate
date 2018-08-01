@@ -67,6 +67,7 @@ Route::name('super.')->middleware('is_admin:1')->prefix('super')->group(function
 
     //Profile
     Route::get('profile','AdminController@getProfile')->name('get_profile');
+    Route::post('profile','AdminController@profile')->name('profile');
 });
 
 

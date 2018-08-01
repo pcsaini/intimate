@@ -795,6 +795,41 @@ class AdminController extends Controller
     }
 
     public function getProfile(){
-        return view('super.profile');
+        $user = Auth::user();
+        return view('super.profile',['user' => $user]);
+    }
+
+    public function profile(Request $request){
+        $validator = Validator::make($request->all(),[
+            'name' => 'required',
+        ]);
+
+        if ($validator->fails()){
+            return redirect()->back()->withErrors($validator->errors())->withInput($request->all());
+        }
+
+        $user = User::find(Auth::id());
+        $user->name = $request->input('name');
+        $user->bio = $request->input('bio');
+        $user->facebook_url = $request->input('facebook_url');
+        $user->twitter_url = $request->input('twitter_url');
+        $user->google_plus_url = $request->input('google_plus_url');
+        $user->instagram_url = $request->input('instagram_url');
+        $user->linkedin_url = $request->input('linkedin_url');
+
+        if ($request->hasFile('profile_pic')){
+            $file = $request->file('profile_pic');
+            $extension = $file->getClientOriginalExtension();
+            $name = str_random(15).'.'.$extension;
+            $file->move(public_path().'/profile_pic/', $name);
+
+            $user->profile_pic = $name;
+        }else{
+            $user->profile_pic = 'profile_pic.png';
+        }
+
+        $user->save();
+
+        return redirect()->back()->with('success','Update Successfully');
     }
 }

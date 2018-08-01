@@ -58,7 +58,7 @@
     <!-- Blog Article Start -->
     <article>
         <div class="author">
-            <div class="author-img"><img alt="" src="{{ asset('Blog/img/post3.jpg') }}"></div>
+            <div class="author-img"><img alt="" src="{{ asset('/profile_pic/'.$post->user->profile_pic) }}"></div>
             <div class="author-content">
                 <h4>{{$post->user->name}}</h4>
                 <p>{{$post->user->bio}}</p>
@@ -83,7 +83,7 @@
                     <li>
                         <div class="comment-box clearfix">
                             <div class="avatar">
-                                <a href="#"><img alt="" src="{{ asset('Blog/img/post3.jpg') }}"></a>
+                                <a href="#"><img alt="" src="{{ asset('/profile_pic/profile_pic.png') }}"></a>
                             </div>
                             <div class="comment-content">
                                 <div class="comment-meta">
@@ -102,7 +102,7 @@
                                         <li>
                                             <div class="comment-box clearfix">
                                                 <div class="avatar">
-                                                    <a href="#"><img alt="" src="{{ asset('Blog/img/post3.jpg') }}"></a>
+                                                    <a href="#"><img alt="" src="{{ asset('/profile_pic/profile_pic.png') }}"></a>
                                                 </div>
                                                 <div class="comment-content">
                                                     <div class="comment-meta">
@@ -150,7 +150,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <input class="form-control" id="author" name="author" placeholder="Name" type="text" value="{{old('author')}}">
-                        @if($errors->has('email'))
+                        @if($errors->has('author'))
                             <label class="text-danger">{{ $errors->first('author') }}</label>
                         @endif
                     </div>
