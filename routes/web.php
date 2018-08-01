@@ -56,7 +56,16 @@ Route::name('super.')->middleware('is_admin:1')->prefix('super')->group(function
     Route::post('save_post','AdminController@savePost')->name('save_post');
 
     //Comments
-    Route::get('comments','AdminController@getComments')->name('get_comments');
+    Route::get('posts/{id}/comments','AdminController@getComments')->name('get_comments');
+    Route::post('posts/{id}/comments','AdminController@comments')->name('comments');
+    Route::get('delete_comment/{id}','AdminController@deleteComment')->name('delete_comment');
+
+    //Replies
+    Route::get('comments/{id}/reply','AdminController@getReply')->name('get_reply');
+    Route::post('comments/{id}/reply','AdminController@reply')->name('reply');
+    Route::get('delete_reply/{id}','AdminController@deleteReply')->name('delete_reply');
+
+    //Profile
     Route::get('profile','AdminController@getProfile')->name('get_profile');
 });
 

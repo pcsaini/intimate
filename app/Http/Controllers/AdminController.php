@@ -352,6 +352,14 @@ class AdminController extends Controller
     }
 
     /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function getAddPost(){
+        $category = Category::where('is_active',1)->get();
+        return view('super.add_post',['category' => $category]);
+    }
+
+    /**
      * @param Request $request
      */
     public function posts(Request $request){
@@ -362,6 +370,7 @@ class AdminController extends Controller
             3 => 'id',
             4 => 'status',
             5 => 'id',
+            6 => 'id',
         );
 
         $totalData = Post::count();
@@ -400,6 +409,7 @@ class AdminController extends Controller
                 $edit = route('super.edit_post',$post->id);
                 $delete = route('super.delete_post',$post->id);
                 $approve = route('super.publish_post',$post->id);
+                $comment = route('super.get_comments',$post->id);
 
                 $tags = [];
                 foreach ($post->tags as $tag){
@@ -413,6 +423,7 @@ class AdminController extends Controller
                 $nestedData['post_tags'] = $tags;
                 $nestedData['status'] = $post->is_published == 0 ? "<a href='{$approve}' class='btn btn-primary'>Publish</a>" : "<span class='text-primary'><b>Published</b></span>";
                 $nestedData['options'] = "<a href='{$edit}' title='Edit' ><span class='glyphicon glyphicon-edit text-primary'></span></a> &nbsp; <a href='{$delete}' title='Delete' ><span class='glyphicon glyphicon-trash text-danger'></span></a>";
+                $nestedData['comments'] = "<a href='{$comment}' class='btn btn-info'>Comments</a>";
                 $data[] = $nestedData;
             }
         }
@@ -590,13 +601,197 @@ class AdminController extends Controller
 
     }
 
-    public function getComments(){
-        return view('super.comments');
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function getComments($id){
+        return view('super.comments',['post_id' => $id]);
     }
 
-    public function getAddPost(){
-        $category = Category::where('is_active',1)->get();
-        return view('super.add_post',['category' => $category]);
+    /**
+     * @param Request $request
+     * @param $id
+     */
+    public function comments(Request $request, $id){
+        $columns  = array(
+            0 => 'author',
+            1 => 'email',
+            2 => 'comments',
+            3 => 'id',
+            4 => 'id'
+        );
+
+        $totalData = Comments::where('post_id',$id)->count();
+        $totalFiltered = $totalData;
+
+        $limit = $request->input('length');
+        $start = $request->input('start');
+        $order = $columns[$request->input('order.0.column')];
+        $dir = $request->input('order.0.dir');
+
+        if(empty($request->input('search.value'))){
+            $comments = Comments::where('post_id',$id)
+                ->offset($start)
+                ->limit($limit)
+                ->orderBy($order,$dir)
+                ->get();
+        }else{
+            $search = $request->input('search.value');
+            $comments = Comments::where('post_id',$id)
+                ->where('comments','LIKE','%'.$search.'%')
+                ->orWhere('name','LIKE','%'.$search.'%')
+                ->orWhere('email','LIKE','%'.$search.'%')
+                ->offset($start)
+                ->limit($limit)
+                ->orderBy($order,$dir)
+                ->get();
+
+            $totalFiltered = Comments::where('post_id',$id)
+                ->where('comments','LIKE','%'.$search.'%')
+                ->orWhere('name','LIKE','%'.$search.'%')
+                ->orWhere('email','LIKE','%'.$search.'%')
+                ->count();
+        }
+
+        $data = array();
+
+        if(!empty($comments)) {
+            foreach ($comments as $comment) {
+                $delete = route('super.delete_comment',$comment->id);
+                $reply = route('super.get_reply',$comment->id);
+
+                $nestedData['author'] = $comment->author;
+                $nestedData['email'] = $comment->email;
+                $nestedData['comments'] = $comment->comments;
+                $nestedData['reply'] = "<a href='{$reply}' class='btn btn-info'>Reply</a>";
+                $nestedData['options'] = "<a href='{$delete}' title='Delete' ><span class='glyphicon glyphicon-trash text-danger'></span></a>";
+                $data[] = $nestedData;
+            }
+        }
+        $json_data = array(
+            "draw"            => intval($request->input('draw')),
+            "recordsTotal"    => intval($totalData),
+            "recordsFiltered" => intval($totalFiltered),
+            "data"            => $data
+        );
+
+        echo json_encode($json_data);
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function deleteComment($id){
+        $comment = Comments::find($id);
+        if (!$comment){
+            return redirect()->back()->with('error','Reply Not Found');
+        }
+        $delete = Reply::where('comment_id',$id)->delete();
+        if ($delete) {
+            $result = $comment->delete();
+
+            if (!$result) {
+                return redirect()->back()->with('error', 'Problem to Delete Reply');
+            }
+        }else{
+            return redirect()->back()->with('error', 'Problem to Delete Reply');
+        }
+
+        return redirect()->back()->with('success','Reply Delete Successfully');
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function getReply($id){
+        return view('super.reply',['comment_id' => $id]);
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     */
+    public function reply(Request $request, $id){
+        $columns  = array(
+            0 => 'author',
+            1 => 'email',
+            2 => 'reply',
+            3 => 'id',
+        );
+
+        $totalData = Reply::where('comment_id',$id)->count();
+        $totalFiltered = $totalData;
+
+        $limit = $request->input('length');
+        $start = $request->input('start');
+        $order = $columns[$request->input('order.0.column')];
+        $dir = $request->input('order.0.dir');
+
+        if(empty($request->input('search.value'))){
+            $replies = Reply::where('comment_id',$id)
+                ->offset($start)
+                ->limit($limit)
+                ->orderBy($order,$dir)
+                ->get();
+        }else{
+            $search = $request->input('search.value');
+            $replies = Reply::where('comment_id',$id)
+                ->where('reply','LIKE','%'.$search.'%')
+                ->orWhere('name','LIKE','%'.$search.'%')
+                ->orWhere('email','LIKE','%'.$search.'%')
+                ->offset($start)
+                ->limit($limit)
+                ->orderBy($order,$dir)
+                ->get();
+
+            $totalFiltered = Reply::where('comment_id',$id)
+                ->where('reply','LIKE','%'.$search.'%')
+                ->orWhere('name','LIKE','%'.$search.'%')
+                ->orWhere('email','LIKE','%'.$search.'%')
+                ->count();
+        }
+
+        $data = array();
+
+        if(!empty($replies)) {
+            foreach ($replies as $reply) {
+                $delete = route('super.delete_reply',$reply->id);
+
+                $nestedData['author'] = $reply->author;
+                $nestedData['email'] = $reply->email;
+                $nestedData['reply'] = $reply->reply;
+                $nestedData['options'] = "<a href='{$delete}' title='Delete' ><span class='glyphicon glyphicon-trash text-danger'></span></a>";
+                $data[] = $nestedData;
+            }
+        }
+        $json_data = array(
+            "draw"            => intval($request->input('draw')),
+            "recordsTotal"    => intval($totalData),
+            "recordsFiltered" => intval($totalFiltered),
+            "data"            => $data
+        );
+
+        echo json_encode($json_data);
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function deleteReply($id){
+        $reply = Reply::find($id);
+        if (!$reply){
+            return redirect()->back()->with('error','Reply Not Found');
+        }
+        $result = $reply->delete();
+        if (!$result){
+            return redirect()->back()->with('error','Problem to Delete Reply');
+        }
+
+        return redirect()->back()->with('success','Reply Delete Successfully');
     }
 
     public function getProfile(){

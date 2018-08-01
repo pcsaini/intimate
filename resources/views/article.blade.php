@@ -16,13 +16,7 @@
                             <span class="meta-part">
                                 <i class="ico-calendar-alt-fill"></i> <a href="#">{{ date('F j, Y ',strtotime($post->created_at)) }}</a></span>
                             <span class="meta-part">
-                                <i class="ico-comments"></i> <a href="#">20</a></span>
-                            <span class="meta-part">
-                                <i class="ico-tag"></i> <a href="#">{{ $post->category->category }}</a>
-                            </span>
-                            <span class="meta-part">
-                                <i class="ico-star"></i>
-                                <a href="#">7.5</a>
+                                <i class="ico-tag"></i> <a href="{{ route('blog.post_by_category',[$post->category->id,str_replace(' ','-',strtolower($post->category->category))]) }}">{{ $post->category->category }}</a>
                             </span>
                         </div>
                     </div>
