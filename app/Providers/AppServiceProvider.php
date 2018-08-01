@@ -37,11 +37,15 @@ class AppServiceProvider extends ServiceProvider
             //get popular posts
             $popular_posts = $post->popularPosts();
 
+            //get Latest comments
+            $comments = $post->latestComments();
+
             $view->with('archives',$archives)
                 ->with('category',$category)
                 ->with('tags',$tags)
                 ->with('latest_posts',$latest_posts)
-                ->with('popular_posts',$popular_posts);
+                ->with('popular_posts',$popular_posts)
+                ->with('comments',$comments);
         });
 
         view()->composer('layouts.header',function ($view){

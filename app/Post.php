@@ -55,7 +55,7 @@ class Post extends Model
     public function tagsList(){
         $tags = Tag::has('posts')->get();
         foreach ($tags as $tag){
-            $class = array_random(['madium','large',' ','madium',' ']);
+            $class = array_random(['madium','large',' ','madium']);
             $tag->class = $class;
         }
         return $tags;
@@ -75,6 +75,13 @@ class Post extends Model
             ->with('postMedia')
             ->where('is_published',1)
             ->where('is_popular',1)
+            ->limit(5)
+            ->orderBy('created_at','decs')
+            ->get();
+    }
+
+    public function latestComments(){
+        return Comments::with('post')
             ->limit(5)
             ->orderBy('created_at','decs')
             ->get();

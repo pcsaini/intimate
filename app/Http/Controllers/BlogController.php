@@ -6,6 +6,7 @@ use App\Category;
 use App\Comments;
 use App\Post;
 use App\RegularUser;
+use App\Reply;
 use App\Tag;
 use App\User;
 use Illuminate\Http\Request;
@@ -80,11 +81,14 @@ class BlogController extends Controller
             ->with('category')
             ->with('postMedia')
             ->with('tags')
-            ->with('comments')
             ->where('is_published',1)
             ->where('post_url',$post_url)
             ->first();
 
+        $comments = Comments::with('reply')
+            ->where('post_id',$post->id)
+            ->get();
+        $post->comments = $comments;
         return view('article',['post' => $post]);
     }
 
@@ -100,16 +104,29 @@ class BlogController extends Controller
             return redirect()->back()->withErrors($validator->errors())->withInput($request->all());
         }
 
-        $post = Post::find($id);
-        if (!$post){
-            return redirect()->back()->withInput($request->all())->with('error','Post Not Fond');
-        }
-        $comment = new Comments();
-        $comment->author = $request->input('author');;
-        $comment->email = $request->input('email');
-        $comment->comments = $request->input('comment');
+        if(empty($request->input('comment_id'))){
+            $post = Post::find($id);
+            if (!$post){
+                return redirect()->back()->withInput($request->all())->with('error','Post Not Fond');
+            }
+            $comment = new Comments();
+            $comment->author = $request->input('author');;
+            $comment->email = $request->input('email');
+            $comment->comments = $request->input('comment');
 
-        $post->comments()->save($comment);
+            $post->comments()->save($comment);
+        }else{
+            $comment = Comments::find($request->input('comment_id'));
+            if (!$comment){
+                return redirect()->back()->withInput($request->all())->with('error','Comment Not Fond');
+            }
+            $reply = new Reply();
+            $reply->author = $request->input('author');;
+            $reply->email = $request->input('email');
+            $reply->reply = $request->input('comment');
+
+            $comment->reply()->save($reply);
+        }
 
         return redirect()->back()->with('success','Comment Add Successfully');
     }

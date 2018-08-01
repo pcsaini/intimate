@@ -55,11 +55,11 @@
         <ul class="nav nav-tabs">
             <li class="active">
                 <a data-toggle="tab" href=
-                "#tab1">Popular</a>
+                "#tab1">Recent</a>
             </li>
             <li>
                 <a data-toggle="tab" href=
-                "#tab2">Recent</a>
+                "#tab2">Popular</a>
             </li>
             <li>
                 <a data-toggle="tab" href=
@@ -120,107 +120,18 @@
             <!-- Tab Content 3 -->
             <div class="tab-pane" id="tab3">
                 <ul class="posts-list">
-                    <li>
-                        <div class="widget-thumb">
-                            <a href="#"><img alt="" src=
-                                "img/post/post1.jpg"></a>
-                        </div>
-                        <div class="widget-content">
-                            <a href="#">Aladdin rides
-                                'magic carpet' at New York in
-                                Halloween prank</a>
-                            <div class="meta">
-                                                    <span><i class=
-                                                             "ico-calendar-alt-fill"></i>
-                                                    October 7,2015</span>
-                                <span><i class=
-                                         "ico-tag"></i>
-                                                    Technology</span>
+                    @foreach($comments as $comment)
+                        <li>
+                            <div class="widget-content">
+                                <a href="#">{{ $comment->author }}</a> comments on <a href="{{ route('blog.single_blog',$comment->post->post_url) }}">{{$comment->post->post_title}}</a>
+                                <div class="meta">
+                                    <span><i class="ico-calendar-alt-fill"></i> {{ date('F j, Y ',strtotime($comment->created_at)) }}</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </li>
-                    <li>
-                        <div class="widget-thumb">
-                            <a href="#"><img alt="" src=
-                                "img/post/post2.jpg"></a>
-                        </div>
-                        <div class="widget-content">
-                            <a href="#">Romania calls for 3
-                                days of mourning after
-                                nightclub fire kills at least
-                                27</a>
-                            <div class="meta">
-                                                    <span><i class=
-                                                             "ico-calendar-alt-fill"></i>
-                                                    October 7,2015</span>
-                                <span><i class=
-                                         "ico-tag"></i>
-                                                    Technology</span>
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </li>
-                    <li>
-                        <div class="widget-thumb">
-                            <a href="#"><img alt="" src=
-                                "img/post/post3.jpg"></a>
-                        </div>
-                        <div class="widget-content">
-                            <a href="#">New Zealand makes
-                                history by winning third Rugby
-                                WC</a>
-                            <div class="meta">
-                                                    <span><i class=
-                                                             "ico-calendar-alt-fill"></i>
-                                                    October 7,2015</span>
-                                <span><i class=
-                                         "ico-tag"></i>
-                                                    Technology</span>
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </li>
-                    <li>
-                        <div class="widget-thumb">
-                            <a href="#"><img alt="" src=
-                                "img/post/post4.jpg"></a>
-                        </div>
-                        <div class="widget-content">
-                            <a href="#">3 years of 'Star
-                                Wars Episode VII' fandom,
-                                celebrated</a>
-                            <div class="meta">
-                                                    <span><i class=
-                                                             "ico-calendar-alt-fill"></i>
-                                                    October 7,2015</span>
-                                <span><i class=
-                                         "ico-tag"></i>
-                                                    Technology</span>
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </li>
-                    <li>
-                        <div class="widget-thumb">
-                            <a href="#"><img alt="" src=
-                                "img/post/post5.jpg"></a>
-                        </div>
-                        <div class="widget-content">
-                            <a href="#">Darth Vader is
-                                having a rough day thanks to an
-                                unruly hoverboard</a>
-                            <div class="meta">
-                                                    <span><i class=
-                                                             "ico-calendar-alt-fill"></i>
-                                                    October 7,2015</span>
-                                <span><i class=
-                                         "ico-tag"></i>
-                                                    Technology</span>
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </li>
+                            <div class="clearfix"></div>
+                        </li>
+
+                    @endforeach
                 </ul>
             </div><!-- End Tab Content 3 -->
             <a class="btn btn-common more" href="#">More

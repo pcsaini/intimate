@@ -64,11 +64,10 @@
     <!-- Blog Article Start -->
     <article>
         <div class="author">
-            <div class="author-img"><img alt="" src="{{ asset('Blog/img/portfolio.jpg') }}"></div>
+            <div class="author-img"><img alt="" src="{{ asset('Blog/img/post3.jpg') }}"></div>
             <div class="author-content">
-                <h4>User</h4>
-                <p>User Bio</p>
-                <a class="btn btn-common btn-more" href="#">Learn More<i class="ico-arrow-right"></i></a>
+                <h4>{{$post->user->name}}</h4>
+                <p>{{$post->user->bio}}</p>
             </div>
         </div>
     </article><!-- Blog Article End -->
@@ -86,7 +85,7 @@
                             <div class="comment-content">
                                 <div class="comment-meta">
                                     <h4 class="comment-by"><a href="#">{{ $comment->author }}</a></h4>
-                                    <span>{{ $comment->email }} - {{ $comment->created_at }}</span>
+                                    <span>{{ $comment->email }} - {{ date('F j, Y ',strtotime($comment->created_at)) }}</span>
                                 </div>
                                 <p>{{ $comment->comments }}</p>
                                 <?php
@@ -94,6 +93,30 @@
                                     echo '<a class="reply-link" href="#respond" onclick="Reply('.$comment_id.')">Reply</a>'
                                 ?>
                             </div>
+                            @if($comment->reply)
+                                <ul>
+                                @foreach($comment->reply as $reply)
+                                        <li>
+                                            <div class="comment-box clearfix">
+                                                <div class="avatar">
+                                                    <a href="#"><img alt="" src="{{ asset('Blog/img/post3.jpg') }}"></a>
+                                                </div>
+                                                <div class="comment-content">
+                                                    <div class="comment-meta">
+                                                        <h4 class="comment-by"><a href="#">{{$reply->author}}</a></h4>
+                                                        <span>{{ $reply->email }} - {{ date('F j, Y ',strtotime($reply->created_at)) }}</span>
+                                                    </div>
+                                                    <p>{{ $reply->reply }}</p>
+                                                    <?php
+                                                    $comment_id = $comment->id;
+                                                        echo '<a class="reply-link" href="#respond" onclick="Reply('.$comment_id.')">Reply</a>'
+                                                    ?>
+                                                </div>
+                                            </div>
+                                        </li>
+                                @endforeach
+                                </ul>
+                            @endif
                         </div>
                     </li>
                 @endforeach
