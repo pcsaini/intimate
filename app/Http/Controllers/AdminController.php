@@ -658,6 +658,7 @@ class AdminController extends Controller
 
         if(!empty($comments)) {
             foreach ($comments as $comment) {
+                $edit = route('super.edit_comment',$comment->id);
                 $delete = route('super.delete_comment',$comment->id);
                 $reply = route('super.get_reply',$comment->id);
 
@@ -665,7 +666,7 @@ class AdminController extends Controller
                 $nestedData['email'] = $comment->email;
                 $nestedData['comments'] = $comment->comments;
                 $nestedData['reply'] = "<a href='{$reply}' class='btn btn-info'>Reply</a>";
-                $nestedData['options'] = "<a href='{$delete}' title='Delete' ><span class='glyphicon glyphicon-trash text-danger'></span></a>";
+                $nestedData['options'] = "<a href='{$edit}' title='Edit' ><span class='glyphicon glyphicon-edit text-info'></span></a> &nbsp; <a href='{$delete}' title='Delete' ><span class='glyphicon glyphicon-trash text-danger'></span></a>";
                 $data[] = $nestedData;
             }
         }
@@ -681,9 +682,18 @@ class AdminController extends Controller
 
     /**
      * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function editComments($id){
+        $comment = Comments::find($id);
+        return view('super.add_comments',['comment' => $comment]);
+    }
+
+    /**
+     * @param $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function deleteComment($id){
+    public function deleteComments($id){
         $comment = Comments::find($id);
         if (!$comment){
             return redirect()->back()->with('error','comment Not Found');
@@ -695,6 +705,45 @@ class AdminController extends Controller
         }
 
         return redirect()->back()->with('success','comment Delete Successfully');
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function getAddComments($id){
+        return view('super.add_comments',['post_id'=>$id]);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function saveComments(Request $request){
+        $validator = Validator::make($request->all(),[
+            'comment' => 'required',
+        ]);
+        if ($validator->fails()){
+            return redirect()->back()->withErrors($validator->errors())->withInput($request->all());
+        }
+
+        if ($request->input('id') == 0){
+            $post = Post::find($request->input('post_id'));
+            $user = Auth::user();
+            $comment = new Comments();
+            $comment->author = $user->name;
+            $comment->email = $user->email;
+            $comment->comments = $request->input('comment');
+            $post->comments()->save($comment);
+            return redirect()->route('super.comments',$request->input('post_id'))->with('success','Comments Successfully Created');
+
+        }else{
+            $comment = Comments::find($request->input('id'));
+            $comment->comments = $request->input('comment');
+            $comment->save();
+            return redirect()->route('super.comments',$request->input('post_id'))->with('success','Comments Edit Successfully');
+        }
+
     }
 
     /**
@@ -753,12 +802,13 @@ class AdminController extends Controller
 
         if(!empty($replies)) {
             foreach ($replies as $reply) {
+                $edit = route('super.edit_reply',$reply->id);
                 $delete = route('super.delete_reply',$reply->id);
 
                 $nestedData['author'] = $reply->author;
                 $nestedData['email'] = $reply->email;
                 $nestedData['reply'] = $reply->reply;
-                $nestedData['options'] = "<a href='{$delete}' title='Delete' ><span class='glyphicon glyphicon-trash text-danger'></span></a>";
+                $nestedData['options'] = "<a href='{$edit}' title='Edit' ><span class='glyphicon glyphicon-edit text-info'></span></a> &nbsp;<a href='{$delete}' title='Delete' ><span class='glyphicon glyphicon-trash text-danger'></span></a>";
                 $data[] = $nestedData;
             }
         }
@@ -770,6 +820,15 @@ class AdminController extends Controller
         );
 
         echo json_encode($json_data);
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function editReply($id){
+        $reply = Reply::find($id);
+        return view('super.add_reply',['reply' => $reply]);
     }
 
     /**
@@ -789,11 +848,57 @@ class AdminController extends Controller
         return redirect()->back()->with('success','Reply Delete Successfully');
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function getAddReply($id){
+        return view('super.add_reply',['comment_id'=>$id]);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function saveReply(Request $request){
+        $validator = Validator::make($request->all(),[
+            'reply' => 'required',
+        ]);
+        if ($validator->fails()){
+            return redirect()->back()->withErrors($validator->errors())->withInput($request->all());
+        }
+
+        if ($request->input('id') == 0){
+            $comment = Comments::find($request->input('comment_id'));
+            $user = Auth::user();
+            $reply = new reply();
+            $reply->author = $user->name;
+            $reply->email = $user->email;
+            $reply->reply = $request->input('reply');
+            $comment->reply()->save($reply);
+            return redirect()->route('super.reply',$request->input('comment_id'))->with('success','Reply Successfully Created');
+
+        }else{
+            $reply = reply::find($request->input('id'));
+            $reply->reply = $request->input('reply');
+            $reply->save();
+            return redirect()->route('super.reply',$request->input('comment_id'))->with('success','Reply Edit Successfully');
+        }
+
+    }
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function getProfile(){
         $user = Auth::user();
         return view('super.profile',['user' => $user]);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function profile(Request $request){
         $validator = Validator::make($request->all(),[
             'name' => 'required',

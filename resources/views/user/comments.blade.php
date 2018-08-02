@@ -25,6 +25,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         Comments
+                        <a class="btn btn-primary pull-right" href="{{ route('user.get_add_comment',$post_id) }}">Add Comments</a>
                     </div>
                     <div class="panel-body">
 

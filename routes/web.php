@@ -31,7 +31,6 @@ Route::name('super.')->middleware('is_admin:1')->prefix('super')->group(function
     //Users
     Route::get('users','AdminController@getUsers')->name('get_users');
     Route::post('users','AdminController@users')->name('users');
-    /*Route::get('edit_user/{id}','AdminController@editUser')->name('edit_user');*/
     Route::get('approve_user/{id}','AdminController@approveUser')->name('approve_user');
     Route::get('delete_user/{id}','AdminController@deleteUser')->name('delete_user');
     Route::get('add_user','AdminController@getAddUser')->name('get_add_user');
@@ -58,12 +57,18 @@ Route::name('super.')->middleware('is_admin:1')->prefix('super')->group(function
     //Comments
     Route::get('posts/{id}/comments','AdminController@getComments')->name('get_comments');
     Route::post('posts/{id}/comments','AdminController@comments')->name('comments');
-    Route::get('delete_comment/{id}','AdminController@deleteComment')->name('delete_comment');
+    Route::get('edit_comment/{id}','AdminController@editComments')->name('edit_comment');
+    Route::get('delete_comment/{id}','AdminController@deleteComments')->name('delete_comment');
+    Route::get('posts/{id}/add_comment','AdminController@getAddComments')->name('get_add_comment');
+    Route::post('save_comment','AdminController@saveComments')->name('save_comments');
 
     //Replies
     Route::get('comments/{id}/reply','AdminController@getReply')->name('get_reply');
     Route::post('comments/{id}/reply','AdminController@reply')->name('reply');
+    Route::get('edit_reply/{id}','AdminController@editReply')->name('edit_reply');
     Route::get('delete_reply/{id}','AdminController@deleteReply')->name('delete_reply');
+    Route::get('comments/{id}/add_reply','AdminController@getAddReply')->name('get_add_reply');
+    Route::post('save_reply','AdminController@saveReply')->name('save_reply');
 
     //Profile
     Route::get('profile','AdminController@getProfile')->name('get_profile');
@@ -94,12 +99,18 @@ Route::name('user.')->middleware('auth')->prefix('user')->group(function (){
     //Comments
     Route::get('posts/{id}/comments','UserController@getComments')->name('get_comments');
     Route::post('posts/{id}/comments','UserController@comments')->name('comments');
+    Route::get('edit_comment/{id}','UserController@editComments')->name('edit_comment');
     Route::get('delete_comment/{id}','UserController@deleteComment')->name('delete_comment');
+    Route::get('posts/{id}/add_comment','UserController@getAddComments')->name('get_add_comment');
+    Route::post('save_comment','UserController@saveComments')->name('save_comments');
 
     //Replies
     Route::get('comments/{id}/reply','UserController@getReply')->name('get_reply');
     Route::post('comments/{id}/reply','UserController@reply')->name('reply');
+    Route::get('edit_reply/{id}','UserController@editReply')->name('edit_reply');
     Route::get('delete_reply/{id}','UserController@deleteReply')->name('delete_reply');
+    Route::get('comments/{id}/add_reply','UserController@getAddReply')->name('get_add_reply');
+    Route::post('save_reply','UserController@saveReply')->name('save_reply');
 
     //Profile
     Route::get('profile','UserController@getProfile')->name('get_profile');

@@ -465,6 +465,7 @@ class UserController extends Controller
 
         if(!empty($comments)) {
             foreach ($comments as $comment) {
+                $edit = route('user.edit_comment',$comment->id);
                 $delete = route('user.delete_comment',$comment->id);
                 $reply = route('user.get_reply',$comment->id);
 
@@ -472,7 +473,7 @@ class UserController extends Controller
                 $nestedData['email'] = $comment->email;
                 $nestedData['comments'] = $comment->comments;
                 $nestedData['reply'] = "<a href='{$reply}' class='btn btn-info'>Reply</a>";
-                $nestedData['options'] = "<a href='{$delete}' title='Delete' ><span class='glyphicon glyphicon-trash text-danger'></span></a>";
+                $nestedData['options'] = "<a href='{$edit}' title='Edit' ><span class='glyphicon glyphicon-edit text-info'></span></a> &nbsp; <a href='{$delete}' title='Delete' ><span class='glyphicon glyphicon-trash text-danger'></span></a>";
                 $data[] = $nestedData;
             }
         }
@@ -484,6 +485,11 @@ class UserController extends Controller
         );
 
         echo json_encode($json_data);
+    }
+
+    public function editComments($id){
+        $comment = Comments::find($id);
+        return view('user.add_comments',['comment' => $comment]);
     }
 
     /**
@@ -501,6 +507,37 @@ class UserController extends Controller
             return redirect()->back()->with('error', 'Problem to Delete Comment');
         }
         return redirect()->back()->with('success','Comment Delete Successfully');
+    }
+
+    public function getAddComments($id){
+        return view('user.add_comments',['post_id'=>$id]);
+    }
+
+    public function saveComments(Request $request){
+        $validator = Validator::make($request->all(),[
+            'comment' => 'required',
+        ]);
+        if ($validator->fails()){
+            return redirect()->back()->withErrors($validator->errors())->withInput($request->all());
+        }
+
+        if ($request->input('id') == 0){
+            $post = Post::find($request->input('post_id'));
+            $user = Auth::user();
+            $comment = new Comments();
+            $comment->author = $user->name;
+            $comment->email = $user->email;
+            $comment->comments = $request->input('comment');
+            $post->comments()->save($comment);
+            return redirect()->route('user.comments',$request->input('post_id'))->with('success','Comments Successfully Created');
+
+        }else{
+            $comment = Comments::find($request->input('id'));
+            $comment->comments = $request->input('comment');
+            $comment->save();
+            return redirect()->route('user.comments',$request->input('post_id'))->with('success','Comments Edit Successfully');
+        }
+
     }
 
     /**
@@ -559,12 +596,13 @@ class UserController extends Controller
 
         if(!empty($replies)) {
             foreach ($replies as $reply) {
+                $edit = route('user.edit_reply',$reply->id);
                 $delete = route('user.delete_reply',$reply->id);
 
                 $nestedData['author'] = $reply->author;
                 $nestedData['email'] = $reply->email;
                 $nestedData['reply'] = $reply->reply;
-                $nestedData['options'] = "<a href='{$delete}' title='Delete' ><span class='glyphicon glyphicon-trash text-danger'></span></a>";
+                $nestedData['options'] = "<a href='{$edit}' title='Edit' ><span class='glyphicon glyphicon-edit text-info'></span></a> &nbsp;<a href='{$delete}' title='Delete' ><span class='glyphicon glyphicon-trash text-danger'></span></a>";
                 $data[] = $nestedData;
             }
         }
@@ -576,6 +614,11 @@ class UserController extends Controller
         );
 
         echo json_encode($json_data);
+    }
+
+    public function editReply($id){
+        $reply = Reply::find($id);
+        return view('user.add_reply',['reply' => $reply]);
     }
 
     /**
@@ -594,6 +637,38 @@ class UserController extends Controller
 
         return redirect()->back()->with('success','Reply Delete Successfully');
     }
+
+    public function getAddReply($id){
+        return view('user.add_reply',['comment_id'=>$id]);
+    }
+
+    public function saveReply(Request $request){
+        $validator = Validator::make($request->all(),[
+            'reply' => 'required',
+        ]);
+        if ($validator->fails()){
+            return redirect()->back()->withErrors($validator->errors())->withInput($request->all());
+        }
+
+        if ($request->input('id') == 0){
+            $comment = Comments::find($request->input('comment_id'));
+            $user = Auth::user();
+            $reply = new reply();
+            $reply->author = $user->name;
+            $reply->email = $user->email;
+            $reply->reply = $request->input('reply');
+            $comment->reply()->save($reply);
+            return redirect()->route('user.reply',$request->input('comment_id'))->with('success','Reply Successfully Created');
+
+        }else{
+            $reply = reply::find($request->input('id'));
+            $reply->reply = $request->input('reply');
+            $reply->save();
+            return redirect()->route('user.reply',$request->input('comment_id'))->with('success','Reply Edit Successfully');
+        }
+
+    }
+
 
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View

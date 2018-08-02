@@ -26,6 +26,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         Reply
+                        <a class="btn btn-primary pull-right" href="{{ route('user.get_add_reply',$comment_id) }}">Add Reply</a>
                     </div>
                     <div class="panel-body">
 

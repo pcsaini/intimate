@@ -1700,3 +1700,15 @@ article .pager span a {
   z-index: 2;
   margin-right: -1px;
 }
+
+.post-thumb .owl-carousel{
+  height: 400px !important;
+}
+
+.post_thumb .owl-carousel .owl-carousel .owl-item .item{
+  text-align: center !important;
+}
+
+.post_thumb .owl-carousel .owl-carousel .owl-item .item img{
+  width: auto !important;
+}
